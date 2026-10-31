@@ -1,0 +1,20 @@
+{
+  "universityName": "دانشگاه علوم پزشکی اردبیل",
+  "phone": "۰۴۵-۳۳۷۲۶۰۸۵",
+  "address": "اردبیل، بزرگراه شهداء",
+  "categories": [
+    {
+      "name": "📚 جزوات پرستاری",
+      "items": [
+        { "title": "جزوه پرستاری داخلی-جراحی", "url": "https://example.com/file1.pdf" },
+        { "title": "جزوه پرستاری کودکان", "url": "https://example.com/file2.pdf" }
+      ]
+    },
+    {
+      "name": "📝 بانک سوالات",
+      "items": [
+        { "title": "سوالات پرستاری سال ۱۴۰۳", "url": "https://example.com/quiz1" }
+      ]
+    }
+  ]
+}

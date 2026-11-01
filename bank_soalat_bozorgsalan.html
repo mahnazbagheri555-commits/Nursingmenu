@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>بانک سوالات پرستاری بزرگسالان و سالمندان</title>
+<style>
+:root {
+  --bg: #0b1220;
+  --panel: #121d30;
+  --panel2: #17253b;
+  --text: #edf3fb;
+  --muted: #a9b8cc;
+  --accent: #65d6c4;
+  --line: #2b3b53;
+  --good: #153d34;
+  --bad: #4b2730;
+  --tab: #1e3a5f;
+  --shadow: rgba(0,0,0,0.3);
+}
+[data-theme="light"] {
+  --bg: #f4f7fb;
+  --panel: #ffffff;
+  --panel2: #eef3f9;
+  --text: #1a2535;
+  --muted: #5a6b80;
+  --accent: #0d9488;
+  --line: #d0dbe8;
+  --good: #d1fae5;
+  --bad: #fee2e2;
+  --tab: #ccfbf1;
+  --shadow: rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;line-height:1.9;transition:background .25s,color .25s}
+.wrap{max-width:1100px;margin:auto;padding:22px 14px 60px}
+header{padding:24px 20px;border:1px solid var(--line);border-radius:20px;background:var(--panel);margin-bottom:18px;box-shadow:0 4px 20px var(--shadow)}
+h1{font-size:clamp(20px,4vw,28px);margin:0 0 8px}
+header p{color:var(--muted);margin:0;font-size:14px}
+.theme-btn{position:fixed;top:18px;left:18px;z-index:100;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:50%;width:46px;height:46px;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px var(--shadow)}
+.theme-btn:hover{border-color:var(--accent)}
+
+.main-tabs{display:flex;gap:8px;margin:18px 0 12px;flex-wrap:wrap}
+.main-tab{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:11px 16px;cursor:pointer;font:inherit;font-size:14px;transition:.15s}
+.main-tab.active{background:#17463f;border-color:#2b7469;color:#fff;font-weight:bold}
+[data-theme="light"] .main-tab.active{background:#0d9488;border-color:#0f766e}
+.main-tab:hover{border-color:var(--accent)}
+
+.tools{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;margin:12px 0}
+.tools input,.tools button{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:11px;padding:12px;font:inherit}
+.tools button{cursor:pointer;background:#17463f;border-color:#2b7469;color:#fff}
+[data-theme="light"] .tools button{background:#0d9488;border-color:#0f766e}
+.tools button:hover{opacity:.9}
+.tools .hide-btn{background:#4b2730;border-color:#7f1d1d}
+.stats{color:var(--muted);font-size:13px;margin:6px 2px 12px}
+
+.question{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin:12px 0;padding:17px;box-shadow:0 2px 10px var(--shadow)}
+.meta{font-size:12px;color:var(--accent);margin-bottom:6px}
+.qtitle{font-size:16px;font-weight:bold;margin-bottom:10px;white-space:pre-wrap}
+.opts{display:grid;gap:7px}
+.opt{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);cursor:pointer;transition:background .15s,border-color .15s,transform .1s;user-select:none}
+.opt:hover:not(.answered){border-color:var(--accent);transform:translateX(-2px)}
+.opt.correct{background:var(--good)!important;border-color:#2f8c77!important}
+.opt.wrong{background:var(--bad)!important;border-color:#b91c1c!important}
+.opt.answered{cursor:default}
+.opt .letter{font-weight:bold;color:var(--accent);margin-left:7px}
+.answer{display:none;margin-top:12px;padding:11px 13px;background:var(--panel2);border-right:4px solid var(--accent);border-radius:8px}
+.answer.show{display:block}
+.note{font-size:13px;color:var(--muted);margin-top:6px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.smallbtn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:7px 11px;cursor:pointer;font:inherit;font-size:13px}
+.smallbtn:hover{border-color:var(--accent)}
+.empty{display:none;text-align:center;color:var(--muted);padding:40px}
+.score-box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 16px;margin-bottom:12px;display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.score-box b{color:var(--accent)}
+.essay-box{background:var(--panel2);border:1px dashed var(--line);border-radius:10px;padding:12px;margin-top:8px;font-size:14px;color:var(--muted)}
+@keyframes fireFlash{0%{filter:none}15%{filter:brightness(1.4) sepia(1) hue-rotate(-50deg) saturate(4)}30%{filter:brightness(.7)}45%{filter:brightness(1.5) sepia(1) hue-rotate(-50deg) saturate(5)}60%{filter:brightness(.8)}75%{filter:brightness(1.3) sepia(1) hue-rotate(-40deg) saturate(4)}100%{filter:none}}
+@keyframes screenShake{0%,100%{transform:translate(0,0)}10%{transform:translate(-8px,4px)}20%{transform:translate(7px,-5px)}30%{transform:translate(-6px,3px)}40%{transform:translate(8px,2px)}50%{transform:translate(-4px,-4px)}60%{transform:translate(5px,3px)}70%{transform:translate(-7px,-2px)}80%{transform:translate(4px,5px)}90%{transform:translate(-3px,-3px)}}
+body.on-fire{animation:fireFlash 1.8s ease-in-out,screenShake .7s ease-in-out}
+.fire-overlay{position:fixed;inset:0;pointer-events:none;z-index:9998;background:radial-gradient(ellipse at bottom,rgba(255,80,0,.4) 0%,transparent 55%),radial-gradient(ellipse at 20% 85%,rgba(255,40,0,.35) 0%,transparent 45%),radial-gradient(ellipse at 80% 75%,rgba(255,120,0,.3) 0%,transparent 45%);opacity:0;transition:opacity .25s}
+.fire-overlay.active{opacity:1;animation:firePulse .35s ease-in-out infinite alternate}
+@keyframes firePulse{from{opacity:.65}to{opacity:1}}
+.emoji-rain{position:fixed;top:-70px;z-index:9999;pointer-events:none;font-size:44px;user-select:none;animation:fall linear forwards;filter:drop-shadow(0 0 8px rgba(255,80,0,.9))}
+@keyframes fall{0%{transform:translateY(0) rotate(0deg);opacity:1}75%{opacity:1}100%{transform:translateY(115vh) rotate(720deg);opacity:0}}
+.flame-sticker{position:fixed;z-index:9997;pointer-events:none;font-size:72px;animation:flameBurst 2.4s ease-out forwards}
+@keyframes flameBurst{0%{transform:scale(.2) translateY(0);opacity:0}15%{transform:scale(1.5) translateY(-15px);opacity:1}40%{transform:scale(1.15) translateY(-45px);opacity:.95}100%{transform:scale(.5) translateY(-100px);opacity:0}}
+@media(max-width:700px){.tools{grid-template-columns:1fr}.main-tabs{gap:6px}.main-tab{padding:9px 12px;font-size:13px}}
+</style>
+</head>
+<body>
+<div class="fire-overlay" id="fireOverlay"></div>
+<button class="theme-btn" id="themeBtn" title="تغییر تم">🌙</button>
+<div class="wrap">
+<header>
+  <h1>بانک سوالات پرستاری بزرگسالان و سالمندان</h1>
+  <p>مجموعه سوالات سال‌های قبل · قلب · خون و سرطان · تنفس · با قابلیت تست و مرور</p>
+</header>
+
+<div class="main-tabs">
+  <button class="main-tab active" data-main="all">همه سوالات</button>
+  <button class="main-tab" data-main="heart">قلب</button>
+  <button class="main-tab" data-main="blood">خون و سرطان</button>
+  <button class="main-tab" data-main="resp">تنفس</button>
+</div>
+
+<div class="tools">
+  <input id="search" placeholder="جست‌وجو در متن سؤال یا گزینه‌ها…" aria-label="جست‌وجو">
+  <button id="toggleAll">نمایش همه پاسخ‌ها</button>
+  <button id="hideAll" class="hide-btn">پنهان همه</button>
+  <button id="resetAnswers" style="background:#1e3a5f;border-color:#2b4a6f">ریست پاسخ‌ها</button>
+</div>
+<div class="score-box" id="scoreBox">
+  <span>پاسخ داده شده: <b id="answeredCount">0</b></span>
+  <span>صحیح: <b id="correctCount" style="color:#2f8c77">0</b></span>
+  <span>غلط: <b id="wrongCount" style="color:#b91c1c">0</b></span>
+</div>
+<div class="stats" id="stats"></div>
+<div id="list"></div>
+<div class="empty" id="empty">سؤالی با این فیلتر پیدا نشد.</div>
+</div>
+
+<script>
+const letters = ['الف','ب','ج','د'];
+
+const data = [
+/* ========== قلب ========== */
+{group:"heart", src:"قلب", q:"وجه افتراق علائم نارسایی قلب چپ و قلب راست کدام مورد می‌باشد؟", opts:["کاهش برون‌ده قلبی","عدم تحمل فعالیت","ادم جنرالیزه","ادم ریوی"], ans:3, note:"ادم ریوی مشخصه نارسایی چپ است"},
+{group:"heart", src:"قلب", q:"دلیل سفید شدن انگشتان در سندرم رینود چیست؟", opts:["هیپرامی","هیپوآمی","افزایش جریان خون شریانی","افزایش جریان خون وریدی"], ans:1, note:"هیپوآمی (کاهش خونرسانی)"},
+{group:"heart", src:"قلب", q:"کدام روش جراحی برای درمان تنگی دریچه میترال مناسب‌تر است؟", opts:["والووتومی","تعویض دریچه مکانیکی","آنولوپلاستی","تعویض دریچه حیوانی"], ans:0, note:"والووتومی (کمیسوروتومی) روش انتخابی در بسیاری موارد"},
+{group:"heart", src:"قلب", q:"داروهای رتپلاز و استرپتوکیناز در کدام مرحله از MI قابل استفاده است؟", opts:["Acute MI","Hyper Acute MI","Recent MI","Old MI"], ans:1, note:"فوق حاد (Hyper Acute)"},
+{group:"heart", src:"قلب", q:"بیماری که مبتلا به نارسایی قلبی، ادم ریوی و ادم اندام‌های تحتانی است و در هنگام شب پس از ۲ ساعت خواب با تنگی نفس شدید از خواب بیدار می‌شود و پس از حدود نیم ساعت نشستن تنگی نفس وی برطرف می‌شود؛ نوع تنگی نفس؟", opts:["ارتوپنه","PND","کوششی","دیس‌پنه"], ans:1, note:"Paroxysmal Nocturnal Dyspnea"},
+{group:"heart", src:"قلب", q:"برای تشخیص اختلالات ساختاری قلب کدام تست تشخیصی مناسب‌تر است؟", opts:["الکتروکاردیوگرافی","فنوکاردیوگرافی","آنزیم‌های قلبی","اکوکاردیوگرافی"], ans:3, note:"اکو برای ساختار قلب بهترین است"},
+{group:"heart", src:"قلب", q:"کدام‌یک از موارد زیر جزء ریسک‌فاکتورهای DVT محسوب می‌شود؟", opts:["بی‌حرکتی طولانی‌مدت","کاهش پلاکت‌های خون","ورزش نامنظم","چربی بالا"], ans:0, note:"بی‌حرکتی یکی از مهم‌ترین ریسک‌فاکتورهاست"},
+{group:"heart", src:"قلب", q:"عامل ایجاد تنگی عروق کرونر در آنژین خاموش کدام مورد است؟", opts:["افزایش قند خون به دنبال دیابت","آترواسکلروز","اسپاسم عروقی","کم‌خونی شدید"], ans:0, note:"در دیابتی‌ها به دلیل نوروپاتی اتونوم"},
+{group:"heart", src:"قلب", q:"کدام‌یک از موارد زیر از ویژگی‌های نارسایی قلبی دیاستولیک نمی‌باشد؟", opts:["تاکیکاردی جبرانی","کاهش برون‌ده قلبی","اختلال در پر شدن بطنی","کاهش کسر تخلیه"], ans:3, note:"در دیاستولیک EF حفظ می‌شود"},
+{group:"heart", src:"قلب", q:"مهم‌ترین تشخیص پرستاری در بیمار مبتلا به دیسکسیون آئورت صعودی کدام می‌باشد؟", opts:["عدم تحمل فعالیت","اختلال در تبادل گاز به دلیل ضعف عضلات تنفسی","خطر افزایش فشار داخل مغزی به دلیل فشار بر ورید اجوف","کاهش برون‌ده قلبی به دلیل ضعف میوکارد قلبی"], ans:2, note:"فشار بر ورید اجوف فوقانی → افزایش ICP"},
+{group:"heart", src:"قلب", q:"از میان علائم و نشانه‌های زیر، احتمال بروز کدام‌یک در بیمار دچار تنگی میترال بیشتر است؟", opts:["افزایش JVP","تنگی نفس کوششی","هپاتومگالی","افزایش غلظت کراتینین فسفوکیناز"], ans:1, note:"تنگی نفس کوششی شایع‌ترین علامت"},
+{group:"heart", src:"قلب", q:"کدام‌یک از موارد زیر جزء ریسک‌فاکتورهای قابل کنترل بیماری‌های قلبی می‌باشد؟", opts:["دیابت ملیتوس نوع اول","سابقه خانوادگی","سن بالا","داشتن استعداد هیپرکلسترولمی"], ans:3, note:"هیپرکلسترولمی قابل کنترل است"},
+{group:"heart", src:"قلب", q:"کدام‌یک از علائم زیر در نارسایی قلب راست مشاهده نمی‌شود؟", opts:["صدای کراکل در ریه","برجستگی ورید ژوگولار","کاهش برون‌ده قلب چپ","ادم اندام‌ها"], ans:0, note:"کراکل مربوط به نارسایی چپ است"},
+{group:"heart", src:"قلب", q:"به جداسازی لت‌های دریچه که به هم چسبیده‌اند چه می‌گویند؟", opts:["آنولوپلاستی","کامیشوروتومی","کوردوپلاستی","والووپلاستی"], ans:1, note:"Commissurotomy"},
+{group:"heart", src:"قلب", q:"کدام‌یک از موارد زیر جزء ریسک‌فاکتورهای غیرقابل کنترل بیماری‌های قلبی می‌باشد؟", opts:["دیابت ملیتوس","هیپرتانسیون","سبک زندگی کم‌تحرک","سن"], ans:3, note:"سن غیرقابل کنترل است"},
+{group:"heart", src:"قلب", q:"کدام گزینه در مورد اکوکاردیوگرافی صحیح می‌باشد؟", opts:["می‌تواند آریتمی‌های قلبی را نشان دهد","بهترین روش تشخیصی برای اختلالات ایسکمیک قلبی می‌باشد","در تعیین منشاء کانون‌های نابجای قلبی مؤثر است","برای تشخیص اختلالات ساختاری قلب مناسب است"], ans:3, note:"اکو برای ساختار عالی است"},
+{group:"heart", src:"قلب", q:"اتساع پاتولوژیک تمام محیط آئورت، بیان‌کننده کدام نوع آنوریسم است؟", opts:["آنوریسم دوکی‌شکل","آنوریسم حقیقی","آنوریسم کیسه‌ای","آنوریسم کاذب"], ans:1, note:"True aneurysm شامل تمام لایه‌هاست"},
+{group:"heart", src:"قلب", q:"کدام‌یک از آزمایشات زیر برای بررسی آسیب عضله قلب معتبرتر است؟", opts:["SGOT","CBC","ABG","CPK-MB"], ans:3, note:"CPK-MB اختصاصی‌تر برای میوکارد"},
+{group:"heart", src:"قلب", q:"شایع‌ترین عامل ایجادکننده بیماری‌های ایسکمیک قلبی چیست؟", opts:["نارسایی کلیه","آترواسکلروز","دیابت ملیتوس","هیپرتانسیون"], ans:1, note:"آترواسکلروز اصلی‌ترین علت"},
+{group:"heart", src:"قلب", q:"در کدام نوع آنژین، خطر بروز انفارکتوس میوکارد بالاست و می‌بایست بیمار در بخش مراقبت‌های ویژه قلبی (CCU) بستری گردد؟", opts:["آنژین ناپایدار","آنژین پریزمتال","آنژین پایدار","آنژین خاموش در بیماران دیابتی"], ans:0, note:"Unstable angina خطر بالایی دارد"},
+{group:"heart", src:"قلب", q:"کدام علامت زیر صرفاً در نارسایی قلب چپ مشاهده می‌شود و در نارسایی قلب راست ایجاد نمی‌شود؟", opts:["کاهش پرفیوژن محیطی","رال ریوی","کاهش برون‌ده قلبی","ادم اندام‌ها"], ans:1, note:"رال ریوی = ادم ریوی = نارسایی چپ"},
+{group:"heart", src:"قلب", q:"نارسایی میترال و تنگی آئورت به ترتیب سوفل‌های ...... و ...... ایجاد می‌کنند.", opts:["سیستولیک، سیستولیک","سیستولیک، دیاستولیک","دیاستولیک، دیاستولیک","دیاستولیک، سیستولیک"], ans:0, note:"هر دو سیستولیک هستند"},
+{group:"heart", src:"قلب", q:"برای پیشگیری از نارسایی وریدی در یک بیمار مبتلا به ترومبوز وریدی عمقی کدام اقدام پرستاری در اولویت می‌باشد؟", opts:["شروع فعالیت در سریع‌ترین زمان ممکن","اندازه‌گیری روزانه دور اندام متورم","شروع داروهای ضد انعقادی","بی‌حرکت کردن بیمار"], ans:3, note:"در فاز حاد بی‌حرکتی برای جلوگیری از آمبولی"},
+{group:"heart", src:"قلب", q:"مهم‌ترین دلیل ادم اندام‌ها در نارسایی قلب راست و چپ به ترتیب کدام مورد می‌باشد؟", opts:["کاهش افترلود، کاهش برون‌ده ادراری","پس زدن خون به عقب، پس زدن خون به عقب","افزایش پری‌لود، کاهش پری‌لود","پس زدن خون به عقب، احتباس آب و نمک"], ans:1, note:"پس‌زدن خون به عقب در هر دو"},
+{group:"heart", src:"قلب", q:"وجود علائم رینود در کدام‌یک از اختلالات زیر مطرح‌کننده بیماری رینود (رینود اولیه) می‌باشد؟", opts:["آنمی داسی‌شکل","آترواسکلروز عروق انتهایی","خانم ۲۸ ساله بدون سابقه بیماری","ترومبوآنژیت اوبلیتران"], ans:2, note:"رینود اولیه در زنان جوان بدون بیماری زمینه‌ای"},
+{group:"heart", src:"قلب", q:"کدام مورد در نارسایی قلبی دیاستولیک اتفاق نمی‌افتد؟", opts:["کاهش EF","اختلال پر شدن بطن","حفظ نسبی کسر تخلیه","سفتی دیواره بطن"], ans:0, note:"در دیاستولیک EF معمولاً حفظ می‌شود"},
+{group:"heart", src:"قلب", q:"بروز دیسکسیون آئورت نوع A باعث بروز کدام مورد می‌شود؟", opts:["فشار به ورید وناکاوای فوقانی و افزایش ICP","کاهش فشار خون ناگهانی","ادم اندام تحتانی","افزایش برون‌ده قلبی"], ans:0, note:"فشار روی ورید اجوف فوقانی"},
+{group:"heart", src:"قلب", q:"نارسایی بطن چپ با کدام مکانیسم باعث ادم اندام‌ها می‌شود؟", opts:["کاهش برون‌ده قلبی","افزایش افترلود","افزایش پری‌لود","کاهش مقاومت محیطی"], ans:0, note:"کاهش برون‌ده → فعال شدن سیستم رنین-آنژیوتانسین"},
+{group:"heart", src:"قلب", q:"رایج‌ترین روش رفع تنگی میترال؟", opts:["والووتومی","تعویض دریچه","آنولوپلاستی","بالون والوولوپلاستی"], ans:0, note:"کمیسوروتومی/والووتومی"},
+{group:"heart", src:"قلب", q:"اثرات نیترات‌ها؟", opts:["گشادی سرخرگ‌ها، گشادی عروق کرونر، کاهش پیش‌بار","انقباض عروق کرونر","افزایش پیش‌بار","کاهش ضربان قلب مستقیم"], ans:0, note:"کاهش preload و afterload + گشادی کرونر"},
+{group:"heart", src:"قلب", q:"داروهای ترومبولیتیک در کدام مرحله MI ترانس‌مورال موثرند؟", opts:["فوق حاد","حاد","اخیر","قدیمی"], ans:0, note:"Hyperacute / فوق حاد"},
+{group:"heart", src:"قلب", q:"اولین اقدام در ارتباط با فرد مبتلا به DVT؟", opts:["اندازه‌گیری دور پا","شروع هپارین فوری","بالا بردن پا","ماساژ اندام"], ans:0, note:"اندازه‌گیری دور اندام برای پیگیری"},
+{group:"heart", src:"قلب", q:"کدام مورد از ویژگی‌های درد آنژین است؟", opts:["بهبود با استراحت","درد تیز و نقطه‌ای","تشدید با لمس","مدت بیش از ۳۰ دقیقه"], ans:0, note:"درد آنژین با استراحت یا نیترات بهبود می‌یابد"},
+{group:"heart", src:"قلب", q:"فضای بین‌دنده‌ای دوم سمت راست کدام کانون را نشان می‌دهد؟", opts:["آئورت","ریوی","میترال","تریکوسپید"], ans:0, note:"کانون آئورت"},
+{group:"heart", src:"قلب", q:"مهم‌ترین اقدام بعد از کاتتریزاسیون؟", opts:["بررسی ترومای ناشی از کاتتر","شروع تغذیه فوری","بالا بردن سر تخت","تجویز آنتی‌بیوتیک"], ans:0, note:"بررسی محل ورود کاتتر از نظر خونریزی و هماتوم"},
+{group:"heart", src:"قلب", q:"تنگی میترال باعث ایجاد کدام سوفل می‌شود؟", opts:["سوفل دیاستولیک","سوفل سیستولیک","سوفل پیوسته","بدون سوفل"], ans:0, note:"تنگی میترال = دیاستولیک"},
+{group:"heart", src:"قلب", q:"مهم‌ترین ریسک‌فاکتور سندرم بورگر؟", opts:["سیگار کشیدن","دیابت","هیپرتانسیون","چربی بالا"], ans:0, note:"سیگار قوی‌ترین عامل Buerger"},
+{group:"heart", src:"قلب", q:"علت اصلی پدیده رینود چیست؟", opts:["انقباض بیش‌ازحد شریان‌های انتهایی","افزایش نفوذپذیری مویرگی","ترومبوز وریدی عمقی","کاهش پلاکت خون"], ans:0, note:"واسواسپاسم شریانچه‌های انتهایی → هیپوآمی"},
+{group:"heart", src:"قلب", q:"اولین و مهم‌ترین اقدام تشخیصی بلافاصله پس از ورود بیمار مشکوک به MI به اورژانس چیست؟", opts:["گرفتن ECG دوازده‌لیدی","اندازه‌گیری تروپونین","تجویز مورفین","اکوکاردیوگرافی"], ans:0, note:"ECG در عرض ۱۰ دقیقه اول ضروری است"},
+{group:"heart", src:"قلب", q:"در بیمار مشکوک به آنژین یا ACS که با اورژانس تماس گرفته، اولین اقدام دارویی توصیه‌شده چیست؟", opts:["جویدن آسپرین ۱۶۲–۳۲۵ میلی‌گرم","تزریق هپارین","نیتروگلیسیرین وریدی","بتابلاکر خوراکی"], ans:0, note:"آسپرین جویدنی اولین اقدام ضدپلاکتی حیاتی است"},
+{group:"heart", src:"قلب", q:"در دیسکسیون آئورت، کانالی که خون بین لایه‌های دیواره رگ ایجاد می‌کند چه نام دارد؟", opts:["لومن کاذب (False lumen)","لومن حقیقی (True lumen)","آنوریسم حقیقی","آنوریسم کاذب"], ans:0, note:"False lumen مسیر غیرطبیعی بین لایه‌هاست"},
+{group:"heart", src:"قلب", q:"کدام نوع کاردیومیوپاتی با سفتی دیواره بطن بدون افزایش قابل‌توجه ضخامت مشخص می‌شود و حجم خون دریافتی را کاهش می‌دهد؟", opts:["محدودکننده (Restrictive)","دیلاته (Dilated)","هیپرتروفیک (Hypertrophic)","آریتموژنیک"], ans:0, note:"Restrictive: سفتی دیواره، ضخامت نسبتاً طبیعی، اختلال پرشدگی دیاستولیک"},
+{group:"heart", src:"قلب", q:"تفاوت اصلی STEMI و NSTEMI در یافته ECG چیست؟", opts:["ارتفاع قطعه ST فقط در STEMI","تروپونین فقط در STEMI مثبت است","درد قفسه سینه فقط در STEMI وجود دارد","نیاز به آسپرین فقط در STEMI است"], ans:0, note:"STEMI = ارتفاع ST ؛ NSTEMI بدون ارتفاع ST اما تروپونین مثبت"},
+
+/* ========== سوالات تشریحی قلب (بر اساس برونر) ========== */
+{group:"heart", src:"قلب · تشریحی · برونر", type:"essay", q:"اولین و مهم‌ترین اقدام تشخیصی بلافاصله پس از ورود بیمار مشکوک به انفارکتوس میوکارد (MI) یا سندرم کرونری حاد به بخش اورژانس چیست؟ توضیح دهید.", ansText:"طبق برونر، اولین و حیاتی‌ترین اقدام تشخیصی، گرفتن و تفسیر نوار قلب ۱۲ لیدی (۱۲-lead ECG) در عرض حداکثر ۱۰ دقیقه پس از ورود بیمار به اورژانس است. این کار امکان تشخیص سریع STEMI را فراهم می‌کند و تعیین می‌کند که آیا بیمار نیاز به ریپرفیوژن فوری (PCI یا فیبرینولیز) دارد یا خیر. تأخیر در ECG باعث تأخیر در درمان نجات‌بخش می‌شود."},
+{group:"heart", src:"قلب · تشریحی · برونر", type:"essay", q:"در بیمار مشکوک به آنژین ناپایدار یا سندرم کرونری حاد که با اورژانس تماس گرفته، اولین اقدام دارویی توصیه‌شده چیست؟ بر اساس برونر توضیح دهید.", ansText:"طبق برونر، اولین اقدام دارویی مهم، تجویز آسپرین جویدنی (غیر روده‌ای) با دوز ۱۶۲ تا ۳۲۵ میلی‌گرم در اسرع وقت است، مگر منع مصرف داشته باشد (مثل آلرژی فعال یا خونریزی فعال). آسپرین با مهار تجمع پلاکتی، تشکیل لخته را کاهش می‌دهد و مرگ‌ومیر و عوارض MI را کم می‌کند. این اقدام بخشی از پروتکل اولیه ACS (همراه با اکسیژن در صورت هیپوکسی، نیتروگلیسرین و مورفین در صورت نیاز) است."},
+{group:"heart", src:"قلب · تشریحی · برونر", type:"essay", q:"در دیسکسیون آئورت، لومن حقیقی (True lumen) و لومن کاذب (False lumen) را تعریف کنید و اهمیت بالینی جریان خون در آن‌ها را بر اساس برونر توضیح دهید.", ansText:"طبق برونر: در دیسکسیون آئورت، پارگی لایه اینتیما باعث ورود خون به لایه مدیا می‌شود و کانال جدیدی به نام لومن کاذب (False lumen) ایجاد می‌کند. لومن حقیقی (True lumen) همان مسیر اصلی و اولیه رگ است. خون می‌تواند در هر دو لومن جریان داشته باشد. اهمیت بالینی: گسترش لومن کاذب می‌تواند لومن حقیقی را فشرده کند و باعث کاهش پرفیوژن اندام‌ها یا عروق شاخه‌ای (مثل کرونر، کاروتید، شریان‌های کلیوی) شود. همچنین لومن کاذب مستعد ترومبوز و پارگی است و تعیین‌کننده شدت عوارض و پیش‌آگهی بیمار است."},
+{group:"heart", src:"قلب · تشریحی · برونر", type:"essay", q:"کاردیومیوپاتی محدودکننده (Restrictive cardiomyopathy) را تعریف کنید. چه تغییری در ضخامت دیواره و حجم خون دریافتی/پمپاژشده رخ می‌دهد؟ (بر اساس برونر)", ansText:"طبق برونر: کاردیومیوپاتی محدودکننده نادرترین نوع کاردیومیوپاتی است و با اختلال دیاستولیک ناشی از سفتی و صلب بودن دیواره‌های بطنی مشخص می‌شود که پر شدن بطن را مختل می‌کند. برخلاف کاردیومیوپاتی هیپرتروفیک، ضخامت دیواره بطن معمولاً افزایش قابل‌توجهی ندارد (یا فقط کمی افزایش می‌یابد). به دلیل اختلال پر شدن دیاستولیک، حجم خون دریافتی (preload مؤثر) و در نتیجه حجم ضربه‌ای (Stroke volume) کاهش می‌یابد، در حالی که عملکرد سیستولیک اغلب حفظ می‌شود. علل شایع: آمیلوئیدوز، سارکوئیدوز، هموکروماتوز و فیبروز اندومیوکارد."},
+{group:"heart", src:"قلب · تشریحی · برونر", type:"essay", q:"تفاوت STEMI و NSTEMI را از نظر پاتوفیزیولوژی، یافته ECG و رویکرد درمانی اولیه بر اساس برونر توضیح دهید.", ansText:"طبق برونر:\n• STEMI (ST-Elevation MI): معمولاً ناشی از انسداد کامل و حاد شریان کرونر است. در ECG ارتفاع قطعه ST دیده می‌شود. درمان فوری ریپرفیوژن با PCI اولیه (ترجیحاً در عرض ۹۰ دقیقه) یا در صورت عدم دسترسی به PCI، فیبرینولیز (در عرض ۳۰ دقیقه) است.\n• NSTEMI (Non-ST-Elevation MI): معمولاً ناشی از انسداد ناقص یا ترومبوز غیر انسدادی است. ارتفاع ST ندارد اما تروپونین بالا می‌رود. درمان اولیه شامل درمان ضدایسکمیک (آسپرین، ضدپلاکتی دوگانه، ضدانعقاد، بتابلاکر، استاتین) و استراتژی تهاجمی زودهنگام بر اساس نمره خطر (مثل TIMI یا GRACE) است."},
+{group:"heart", src:"قلب · تشریحی · برونر", type:"essay", q:"علت اصلی پدیده رینود (Raynaud phenomenon) چیست و چه عواملی آن را تحریک می‌کنند؟ (بر اساس برونر)", ansText:"طبق برونر: علت اصلی پدیده رینود، انقباض اپیزودیک و بیش‌ازحد شریان‌ها و شریانچه‌های انتهایی (vasospasm) است که منجر به کاهش شدید جریان خون (هیپوپرفیوژن) انگشتان دست و پا می‌شود. این انقباض باعث تغییر رنگ سه‌مرحله‌ای (سفید → آبی → قرمز) می‌شود. عوامل تحریک‌کننده مهم: سرما، استرس عاطفی، ارتعاش شغلی، سیگار و برخی داروها (مثل بتابلاکرها). رینود اولیه (بیماری رینود) بدون بیماری زمینه‌ای و رینود ثانویه همراه با بیماری‌هایی مثل اسکلرودرمی یا لوپوس است."},
+
+/* ========== خون و سرطان ========== */
+{group:"blood", src:"خون و سرطان", q:"داروهای خط اول شیمی‌درمانی القایی در بیماران مبتلا به لوسمی حاد میلوئیدی کدام است؟", opts:["اتوپوساید، اریترومایسین","کلاریترومایسین، دانوروبیسین","سیتارابین، دانوروبیسین","سیکلوفسفاماید، متوتروکسات"], ans:2, note:"Ara-C (سیتارابین) + دانوروبیسین (رژیم ۷+۳)"},
+{group:"blood", src:"خون و سرطان", q:"کدام یک در مورد بیماری هموفیلی صحیح است؟", opts:["نوع A شایع‌تر است","دختران ناقل و بیمار نمی‌شوند","بیماری کریسمس همان هموفیلی نوع A است","کمبود ویتامین K علت اصلی آن است"], ans:0, note:"هموفیلی A شایع‌تر از B است"},
+{group:"blood", src:"خون و سرطان", q:"در آزمایش خون، RDW یا Red Cell Distribution Width به چه معنا است؟", opts:["هر قدر بیشتر باشد، انحراف سایز گلبول‌ها از میانگین بیشتر است","هر قدر بیشتر باشد، سیستم ایمنی قوی‌تر است","هر قدر بیشتر باشد، اندازه گلبول‌های قرمز هم بیشتر است","هر قدر بیشتر باشد، مقدار هموگلوبین هم بیشتر است"], ans:0, note:"RDW نشان‌دهنده آنیزوسیتوز است"},
+{group:"blood", src:"خون و سرطان", q:"معمولاً علت مرگ بیماران مبتلا به AML کدام است؟", opts:["ضعف و ناتوانی","شیمی‌درمانی","عفونت و خونریزی","تب"], ans:2, note:"عفونت و خونریزی به دلیل پان‌سیتوپنی"},
+{group:"blood", src:"خون و سرطان", q:"در کدام یک علت بیماری کروموزوم فیلادلفیا است؟", opts:["لوسمی حاد لنفوئیدی","لوسمی مزمن لنفوئیدی","لوسمی مزمن میلوئیدی","لوسمی حاد میلوئیدی"], ans:2, note:"CML = Philadelphia chromosome (t(9;22))"},
+{group:"blood", src:"خون و سرطان", q:"بیمار مبتلا به ترومبوسیتوپنی هست و سطح پلاکت بیمار ۸۰۰۰ می‌باشد. برای جلوگیری از خون‌ریزی همه اقدامات زیر باید انجام شود به جز؟", opts:["عدم مصرف آسپیرین","استفاده از هیدروکسید آلومینیوم","اجتناب از تزریق عضلانی","استفاده از هیدروکسید منیزیم"], ans:1, note:"از آنتی‌اسیدهای حاوی آلومینیوم معمولاً اجتناب نمی‌شود؛ آسپیرین و IM ممنوع است"},
+
+/* ========== تنفس (نمونه‌های موجود) ========== */
+{group:"resp", src:"تنفس", q:"مهم‌ترین عارضه COPD که منجر به مرگ بیمار می‌شود؟", opts:["هایپرتانسیون ریوی","پنومونی","آتلکتازی","آمفیزم"], ans:0, note:"کورپولمونل و هایپرتانسیون ریوی"},
+{group:"resp", src:"تنفس", q:"بهترین روش تشخیصی آمبولی ریه؟", opts:["آنژیوگرافی ریوی","CXR","اسپیرومتری","ABG"], ans:0, note:"آنژیوگرافی گلد استاندارد است (هرچند CTPA رایج‌تر شده)"},
+{group:"resp", src:"تنفس", q:"اقدام توصیه‌شده به بیمار COPD؟", opts:["تنفس با لب غنچه‌شده","تنفس عمیق سریع","خوابیدن صاف","مصرف آنتی‌هیستامین"], ans:0, note:"Pursed-lip breathing"},
+{group:"resp", src:"تنفس", q:"شایع‌ترین علامت سرطان ریه؟", opts:["سرفه خشک و بدون خلط","هموپتیزی","درد قفسه سینه","کاهش وزن"], ans:0, note:"سرفه مزمن شایع‌ترین علامت اولیه است"},
+{group:"resp", src:"تنفس", q:"زودرس‌ترین علامت سرطان حنجره؟", opts:["خشونت صدا","دیسفاژی","استریدور","کاهش وزن"], ans:0, note:"خشونت صدا (hoarseness)"},
+
+];
+
+let currentMain = "all";
+let allShown = false;
+// Store user answers: key = question index in filtered list is unstable, use unique key from q text
+const userAnswers = {}; // key -> {selected: number, correct: boolean}
+
+function makeKey(item) {
+  return item.q.slice(0, 80);
+}
+
+function getFiltered() {
+  const term = document.getElementById("search").value.trim().toLowerCase();
+  let list = data.slice();
+
+  if (currentMain !== "all") {
+    list = list.filter(d => d.group === currentMain);
+  }
+
+  if (term) {
+    list = list.filter(d => {
+      const text = (d.q + " " + (d.opts || []).join(" ") + " " + (d.note || "") + " " + (d.ansText || "")).toLowerCase();
+      return text.includes(term);
+    });
+  }
+  return list;
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function updateScore() {
+  let answered = 0, correct = 0, wrong = 0;
+  Object.values(userAnswers).forEach(a => {
+    answered++;
+    if (a.correct) correct++; else wrong++;
+  });
+  document.getElementById("answeredCount").textContent = answered;
+  document.getElementById("correctCount").textContent = correct;
+  document.getElementById("wrongCount").textContent = wrong;
+}
+
+function render() {
+  const filtered = getFiltered();
+  document.getElementById("stats").textContent = `${filtered.length} سؤال نمایش داده شده`;
+  document.getElementById("empty").style.display = filtered.length ? "none" : "block";
+
+  document.getElementById("list").innerHTML = filtered.map((x, idx) => {
+    const key = makeKey(x);
+    const ua = userAnswers[key];
+    const isAnswered = !!ua;
+    const showCorrect = allShown || isAnswered;
+    const isEssay = x.type === "essay";
+
+    if (isEssay) {
+      return `<article class="question" data-key="${esc(key)}">
+        <div class="meta">${esc(x.src)} · تشریحی</div>
+        <div class="qtitle">${esc(x.q)}</div>
+        <div class="essay-box">سؤال تشریحی — پاسخ بر اساس منابع استاندارد (برونر)</div>
+        <div class="answer ${allShown ? "show" : ""}">
+          <b>پاسخ پیشنهادی:</b><br>${esc(x.ansText || "").replace(/&#10;|\n/g, "<br>")}
+        </div>
+        <div class="controls">
+          <button class="smallbtn" onclick="toggleAns(this)">${allShown ? "پنهان کردن پاسخ" : "نمایش پاسخ"}</button>
+        </div>
+      </article>`;
+    }
+
+    const optsHtml = (x.opts || []).map((o, j) => {
+      let cls = "opt";
+      if (showCorrect && j === x.ans) cls += " correct";
+      if (isAnswered && j === ua.selected && j !== x.ans) cls += " wrong";
+      if (isAnswered || allShown) cls += " answered";
+      return `<div class="${cls}" data-idx="${j}" data-key="${esc(key)}" data-ans="${x.ans}"><span class="letter">${letters[j]})</span> ${esc(o)}</div>`;
+    }).join("");
+
+    return `<article class="question" data-key="${esc(key)}" data-ans="${x.ans}">
+      <div class="meta">${esc(x.src)} · چهارگزینه‌ای</div>
+      <div class="qtitle">${esc(x.q)}</div>
+      <div class="opts">${optsHtml}</div>
+      <div class="answer ${allShown || isAnswered ? "show" : ""}">
+        <b>پاسخ صحیح: ${letters[x.ans]}) ${esc((x.opts || [])[x.ans] || "")}</b>
+        ${x.note ? `<div class="note">${esc(x.note)}</div>` : ""}
+      </div>
+      <div class="controls">
+        <button class="smallbtn" onclick="toggleAns(this)">${(allShown || isAnswered) ? "پنهان کردن پاسخ" : "نمایش پاسخ"}</button>
+      </div>
+    </article>`;
+  }).join("");
+
+  // Attach click handlers to options
+  document.querySelectorAll(".opt:not(.answered)").forEach(opt => {
+    opt.addEventListener("click", () => {
+      const key = opt.dataset.key;
+      const selected = parseInt(opt.dataset.idx, 10);
+      const correctAns = parseInt(opt.dataset.ans, 10);
+      const isCorrect = selected === correctAns;
+
+      userAnswers[key] = { selected, correct: isCorrect };
+      updateScore();
+      if (!isCorrect) triggerFireEffect();
+      render();
+    });
+  });
+}
+
+function triggerFireEffect() {
+  const overlay = document.getElementById("fireOverlay");
+  document.body.classList.add("on-fire");
+  if (overlay) overlay.classList.add("active");
+  const flameEmojis = ["🔥","🔥","💥","🔥","🌶️"];
+  for (let i = 0; i < 18; i++) {
+    const f = document.createElement("div");
+    f.className = "flame-sticker";
+    f.textContent = flameEmojis[i % flameEmojis.length];
+    f.style.left = (Math.random() * 92 + 2) + "vw";
+    f.style.top = (Math.random() * 75 + 10) + "vh";
+    f.style.fontSize = (48 + Math.random() * 48) + "px";
+    f.style.animationDelay = (Math.random() * 0.5) + "s";
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 2600);
+  }
+  const rainEmojis = ["🍆","🍆","🔥","🍆","💥","🍆","🔥","🍆"];
+  for (let i = 0; i < 35; i++) {
+    const e = document.createElement("div");
+    e.className = "emoji-rain";
+    e.textContent = rainEmojis[i % rainEmojis.length];
+    e.style.left = (Math.random() * 96 + 1) + "vw";
+    e.style.fontSize = (28 + Math.random() * 36) + "px";
+    e.style.animationDuration = (1.6 + Math.random() * 1.8) + "s";
+    e.style.animationDelay = (Math.random() * 0.9) + "s";
+    document.body.appendChild(e);
+    setTimeout(() => e.remove(), 4000);
+  }
+  setTimeout(() => {
+    document.body.classList.remove("on-fire");
+    if (overlay) overlay.classList.remove("active");
+  }, 2200);
+}
+
+function toggleAns(btn) {
+  const q = btn.closest(".question");
+  const a = q.querySelector(".answer");
+  const wasHidden = !a.classList.contains("show");
+  a.classList.toggle("show");
+  btn.textContent = a.classList.contains("show") ? "پنهان کردن پاسخ" : "نمایش پاسخ";
+
+  // When showing answer, highlight correct option in green
+  if (wasHidden) {
+    const opts = q.querySelectorAll(".opt");
+    const correctIdx = parseInt(q.dataset.ans, 10);
+    opts.forEach((o, j) => {
+      o.classList.remove("correct", "wrong");
+      if (j === correctIdx) o.classList.add("correct");
+      o.classList.add("answered");
+    });
+  }
+}
+
+document.querySelectorAll(".main-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".main-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    currentMain = tab.dataset.main;
+    render();
+  });
+});
+
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("toggleAll").addEventListener("click", () => {
+  allShown = true;
+  render();
+});
+document.getElementById("hideAll").addEventListener("click", () => {
+  allShown = false;
+  // keep userAnswers so previously answered stay colored
+  render();
+});
+document.getElementById("resetAnswers").addEventListener("click", () => {
+  Object.keys(userAnswers).forEach(k => delete userAnswers[k]);
+  allShown = false;
+  updateScore();
+  render();
+});
+
+/* Theme */
+const themeBtn = document.getElementById("themeBtn");
+function setTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  themeBtn.textContent = t === "dark" ? "☀️" : "🌙";
+  localStorage.setItem("theme", t);
+}
+themeBtn.addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme") || "dark";
+  setTheme(cur === "dark" ? "light" : "dark");
+});
+setTheme(localStorage.getItem("theme") || "dark");
+
+updateScore();
+render();
+</script>
+</body>
+</html>

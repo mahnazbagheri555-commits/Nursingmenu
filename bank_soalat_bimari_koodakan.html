@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>بانک سوالات پرستاری بیماری کودکان</title>
+<style>
+:root{
+  --bg:#0b1220;--panel:#121d30;--panel2:#17253b;--text:#edf3fb;--muted:#a9b8cc;
+  --accent:#65d6c4;--line:#2b3b53;--good:#153d34;--bad:#4b2730;--tab:#1e3a5f;
+  --header-bg:linear-gradient(135deg,#182943,#102033);
+}
+[data-theme="light"]{
+  --bg:#f0f4f8;--panel:#ffffff;--panel2:#e8eef5;--text:#1a2332;--muted:#5a6a7e;
+  --accent:#0d9488;--line:#c5d0de;--good:#d1fae5;--bad:#fee2e2;--tab:#ccfbf1;
+  --header-bg:linear-gradient(135deg,#e0f2fe,#f0f9ff);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;line-height:1.9;transition:background .3s,color .3s}
+.wrap{max-width:1100px;margin:auto;padding:22px 14px 60px}
+header{padding:24px 20px;border:1px solid var(--line);border-radius:20px;background:var(--header-bg);margin-bottom:18px;position:relative}
+h1{font-size:clamp(20px,4vw,28px);margin:0 0 8px}
+header p{color:var(--muted);margin:0;font-size:14px}
+.theme-btn{position:absolute;left:18px;top:18px;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:8px 14px;cursor:pointer;font:inherit;font-size:13px}
+.theme-btn:hover{border-color:var(--accent)}
+
+.main-tabs{display:flex;gap:8px;margin:18px 0 12px;flex-wrap:wrap}
+.main-tab{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:11px 18px;cursor:pointer;font:inherit;font-size:15px;transition:.15s}
+.main-tab.active{background:#17463f;border-color:#2b7469;color:#fff;font-weight:bold}
+[data-theme="light"] .main-tab.active{background:#0d9488;border-color:#0f766e}
+.main-tab:hover{border-color:var(--accent)}
+
+.sub-tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.sub-btn{background:var(--panel2);color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:8px 13px;cursor:pointer;font:inherit;font-size:13px}
+.sub-btn.active{background:#1a4a42;border-color:#2f8c77;color:#fff}
+[data-theme="light"] .sub-btn.active{background:#14b8a6;color:#fff}
+.sub-btn:hover{border-color:var(--accent);color:var(--text)}
+
+.tools{display:grid;grid-template-columns:1fr 180px auto;gap:10px;margin:12px 0}
+.tools input,.tools select,.tools button{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:11px;padding:12px;font:inherit}
+.tools button{cursor:pointer;background:#17463f;border-color:#2b7469;color:#fff}
+[data-theme="light"] .tools button{background:#0d9488}
+.tools button:hover{opacity:.9}
+.stats{color:var(--muted);font-size:13px;margin:6px 2px 12px}
+
+.question{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin:12px 0;padding:17px}
+.meta{font-size:12px;color:var(--accent);margin-bottom:6px}
+.qtitle{font-size:16px;font-weight:bold;margin-bottom:10px}
+.opts{display:grid;gap:7px}
+.opt{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);cursor:pointer;transition:.12s}
+.opt:hover{border-color:var(--accent)}
+.opt.correct{background:var(--good);border-color:#2f8c77}
+.opt.wrong{background:var(--bad);border-color:#a33}
+.opt.disabled{pointer-events:none}
+.opt .letter{font-weight:bold;color:var(--accent);margin-left:7px}
+@keyframes fireFlash{0%{filter:none}15%{filter:brightness(1.4) sepia(1) hue-rotate(-50deg) saturate(4)}30%{filter:brightness(.7)}45%{filter:brightness(1.5) sepia(1) hue-rotate(-50deg) saturate(5)}60%{filter:brightness(.8)}75%{filter:brightness(1.3) sepia(1) hue-rotate(-40deg) saturate(4)}100%{filter:none}}
+@keyframes screenShake{0%,100%{transform:translate(0,0)}10%{transform:translate(-8px,4px)}20%{transform:translate(7px,-5px)}30%{transform:translate(-6px,3px)}40%{transform:translate(8px,2px)}50%{transform:translate(-4px,-4px)}60%{transform:translate(5px,3px)}70%{transform:translate(-7px,-2px)}80%{transform:translate(4px,5px)}90%{transform:translate(-3px,-3px)}}
+body.on-fire{animation:fireFlash 1.8s ease-in-out,screenShake .7s ease-in-out}
+.fire-overlay{position:fixed;inset:0;pointer-events:none;z-index:9998;background:radial-gradient(ellipse at bottom,rgba(255,80,0,.4) 0%,transparent 55%),radial-gradient(ellipse at 20% 85%,rgba(255,40,0,.35) 0%,transparent 45%),radial-gradient(ellipse at 80% 75%,rgba(255,120,0,.3) 0%,transparent 45%);opacity:0;transition:opacity .25s}
+.fire-overlay.active{opacity:1;animation:firePulse .35s ease-in-out infinite alternate}
+@keyframes firePulse{from{opacity:.65}to{opacity:1}}
+.emoji-rain{position:fixed;top:-70px;z-index:9999;pointer-events:none;font-size:44px;user-select:none;animation:fall linear forwards;filter:drop-shadow(0 0 8px rgba(255,80,0,.9))}
+@keyframes fall{0%{transform:translateY(0) rotate(0deg);opacity:1}75%{opacity:1}100%{transform:translateY(115vh) rotate(720deg);opacity:0}}
+.flame-sticker{position:fixed;z-index:9997;pointer-events:none;font-size:72px;animation:flameBurst 2.4s ease-out forwards}
+@keyframes flameBurst{0%{transform:scale(.2) translateY(0);opacity:0}15%{transform:scale(1.5) translateY(-15px);opacity:1}40%{transform:scale(1.15) translateY(-45px);opacity:.95}100%{transform:scale(.5) translateY(-100px);opacity:0}}
+.answer{display:none;margin-top:12px;padding:11px 13px;background:#102f2a;border-right:4px solid var(--accent);border-radius:8px}
+[data-theme="light"] .answer{background:#ccfbf1}
+.answer.show{display:block}
+.note{font-size:13px;color:#c2d1e3;margin-top:6px}
+[data-theme="light"] .note{color:#334155}
+.dup-badge{display:inline-block;background:#3a2a15;color:#f0c060;font-size:11px;padding:2px 8px;border-radius:6px;margin-right:6px}
+[data-theme="light"] .dup-badge{background:#fef3c7;color:#92400e}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.smallbtn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:7px 11px;cursor:pointer;font:inherit;font-size:13px}
+.smallbtn:hover{border-color:var(--accent)}
+.empty{display:none;text-align:center;color:var(--muted);padding:40px}
+.bp-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin:10px 0}
+.bp-card h3{margin:0 0 8px;font-size:15px;color:var(--accent)}
+.bp-card .src-ref{font-size:12px;color:var(--muted);margin-top:6px}
+.bp-match{background:#1a3a2a;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px}
+[data-theme="light"] .bp-match{background:#d1fae5}
+@media(max-width:700px){.tools{grid-template-columns:1fr}.main-tabs{gap:6px}.main-tab{padding:9px 12px;font-size:13px}}
+</style>
+</head>
+<body>
+<div class="fire-overlay" id="fireOverlay"></div>
+<div class="wrap">
+<header>
+  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙 حالت روشن</button>
+  <h1>بانک سوالات پرستاری بیماری کودکان</h1>
+  <p>مجموعه سوالات میان‌ترم و پایان‌ترم + بلوپرینت‌ها (دکتر فرشباف) | با پاسخ پیشنهادی بر اساس Wong و نلسون | جست‌وجو · فیلتر · تم تیره/روشن · افکت اشتباه</p>
+</header>
+
+<div class="main-tabs">
+  <button class="main-tab active" data-main="blueprint">بلوپرینت‌ها</button>
+  <button class="main-tab" data-main="questions">سوالات (بر اساس سال)</button>
+  <button class="main-tab" data-main="all">همه سوالات (بدون تکرار)</button>
+</div>
+
+<div class="sub-tools" id="subTools"></div>
+
+<div class="tools">
+  <input id="search" placeholder="جست‌وجو در متن سؤال یا گزینه‌ها…" aria-label="جست‌وجو">
+  <select id="typeFilter">
+    <option value="">همه انواع</option>
+    <option value="mcq">چهارگزینه‌ای</option>
+  </select>
+  <button id="toggleAll">نمایش همه پاسخ‌ها</button>
+</div>
+<div class="stats" id="stats"></div>
+<div id="list"></div>
+<div class="empty" id="empty">سؤالی با این فیلتر پیدا نشد.</div>
+</div>
+
+<script>
+const letters = ['الف','ب','ج','د'];
+
+/* ========== DATA ========== */
+const data = [
+
+/* ===== بلوپرینت ۱۴۰۲-۱۴۰۳ (۲۴ سوال) ===== */
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"دقیق‌ترین روش آزمایش محتوی باکتری ادرار شامل .............. برای کودکان زیر ........... می‌باشد.",
+ opts:["آسپیراسیون سوپراپوبیک برای کودکان زیر ۳ سال","سونداژ مناسب مثانه برای کودکان زیر ۲ سال","آسپیراسیون سوپراپوبیک برای کودکان زیر ۲ سال","مورد ب و ج"],
+ ans:2, note:"Wong ص ۵۷۴ — آسپیراسیون سوپراپوبیک دقیق‌ترین روش برای کودکان زیر ۲ سال است.",
+ match:"ظاهر شده در: سوالات با جواب ۱۴۰۳-۱۴۰۲ (سوال ۱)"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"کودک ۴ ساله با تب و لرز و درد پهلو در بیمارستان بستری است. شما به عنوان پرستار شک به بیماری ........ دارید و از مادر در مورد چه عادتی سؤال می‌پرسید؟",
+ opts:["پیلونفریت ، نگه‌داشتن ادرار و یبوست","سیستیت ، عادت دفع ادرار و مدفوع","اورتریت ، نگه‌داشتن ادرار و یبوست","اوروسپسیس ، عادت دفع ادرار و مدفوع"],
+ ans:0, note:"Wong ص ۵۷۵ — علائم سیستمیک (تب و لرز + درد پهلو) نشان‌دهنده پیلونفریت است.",
+ match:"ظاهر شده در: سوالات با جواب ۱۴۰۳-۱۴۰۲"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:".......... به افزایش ذخیره آهن در اندام‌ها مانند طحال و کبد و ......... به افزایش ذخایر آهن بافت‌ها همراه با آسیب سلولی اطلاق می‌شود.",
+ opts:["هموکروماتوز و هموسیدروزیس","هموسیدروزیس و هموکروماتوز","هموسیتوزیس و هموکروموزیس","هموکروموزیس و هموسیتوزیس"],
+ ans:1, note:"Wong ص ۷۴۸ — هموسیدروزیس = افزایش ذخیره بدون آسیب؛ هموکروماتوز = افزایش با آسیب سلولی.",
+ match:"ظاهر شده در: سوالات با جواب ۱۴۰۴-۱۴۰۳ و بهمن ۱۴۰۳-۱۴۰۴"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"یک بیمار هموفیلی تحت درمان برای تزریق آنتی‌بیوتیک مراجعه کرده؛ امکان تزریق عضلانی و وریدی وجود دارد. کدام گزینه را انتخاب می‌کنید؟",
+ opts:["عضلانی","تزریق نمی‌کنید","وریدی","زیرجلدی"],
+ ans:2, note:"Wong ص ۷۴۸ — در هموفیلی از تزریق عضلانی اجتناب می‌شود (خطر هماتوم). ترجیحاً وریدی.",
+ match:"ظاهر شده در: دی‌ماه ۱۴۰۲-۱۴۰۳ و بلوپرینت"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"به مرور زمان و در پاسخ به هیپوکسمی مزمن دو تغییر فیزیولوژیکی ......... و ........... در بدن کودک مبتلا به نقص مادرزادی قلب اتفاق می‌افتد.",
+ opts:["سیانوز و کاهش رشد","حملات سیانوز و بی‌اشتهایی","پلی‌سیتمی و کلابینگ انگشتان","هیپرتروفی قلب و ادم ریه"],
+ ans:2, note:"Wong ص ۷۰۹ — پلی‌سیتمی و clubbing پاسخ‌های کلاسیک به هیپوکسمی مزمن هستند.",
+ match:"ظاهر شده در: سوالات با جواب ۱۴۰۳-۱۴۰۲"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"کودک شیرخواری داروی دیگوکسین دریافت می‌کند. قبل از دادن دارو نبض چک می‌شود. تعداد ضربان کمتر از چه مقدار باشد نباید دیگوکسین داده شود؟",
+ opts:["۹۰–۱۱۰","۸۰–۱۰۰","۱۲۰–۱۱۰","۸۰–۷۰"],
+ ans:0, note:"Wong ص ۷۰۵ — در نوزادان/شیرخواران اگر HR < ۹۰–۱۱۰ (معمولاً <۹۰ یا <۱۰۰ بسته به سن) دارو نگه داشته می‌شود.",
+ match:"ظاهر شده در: سوالات با جواب ۱۴۰۳-۱۴۰۲"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"یکی از علت‌های باز ماندن مجرای شریانی (PDA) در نوزادان چیست؟",
+ opts:["فشار عروق ریوی بالاتر از سیستمیک","فشار عروق ریوی و سیستمیک برابر","فشار عروق سیستمیک بالاتر از ریوی","بالا و پایین رفتن فشار عروق"],
+ ans:0, note:"Wong ص ۷۱۳ — هیپوکسی و فشار ریوی بالا از عوامل باز ماندن PDA است.",
+ match:""},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"در حملات هیپرسیانوتیک (Tet spell) پرستار باید چه اقدامی انجام دهد؟",
+ opts:["شیرخوار را در پوزیشن مناسب قرار دهد و شیوه آرام پیش گیرد","شیرخوار را در پوزیشن سجده قرار دهد و مورفین تزریق کند","شیرخوار را در پوزیشن سجده (زانو-سینه) قرار دهد و اکسیژن بدهد","مورد الف و ج صحیح است"],
+ ans:3, note:"Wong ص ۷۱۱ — پوزیشن knee-chest + اکسیژن + آرامش‌بخشی؛ مورفین در موارد شدید.",
+ match:"ظاهر شده در: سوالات قلب و کلیه"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"علامت اصلی بیماری کاوازاکی چیست؟",
+ opts:["تب طول‌کشیده","زبان توت‌فرنگی","لب قرمز و ترک‌خورده","کف دست و پا قرمز"],
+ ans:0, note:"Wong ص ۷۳۵ — تب پایدار بیش از ۵ روز علامت اصلی و معیار تشخیصی است.",
+ match:""},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"کودکانی که IVIG دریافت می‌کنند باید واکسن‌های زنده مانند MMR را چگونه دریافت کنند؟",
+ opts:["با تأخیر ۱۱ ماهه تزریق کنند","مشکلی برای تجویز وجود ندارد","می‌توان همزمان تزریق نمود","بعد از این دارو نباید این واکسن‌ها را تزریق کرد"],
+ ans:0, note:"Wong ص ۷۴۰ — IVIG تداخل با واکسن‌های زنده دارد؛ تأخیر ۱۱ ماه توصیه می‌شود.",
+ match:"ظاهر شده در: سوالات با جواب ۱۴۰۴-۱۴۰۳ و بهمن"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"تومور ویلمزی که به خارج کلیه گسترش یافته ولی قابل برداشتن است در کدام گرید قرار دارد؟",
+ opts:["گرید ۱","گرید ۲","گرید ۳","گرید ۴"],
+ ans:1, note:"Wong ص ۵۸۴ — Stage II: گسترش خارج کلیوی ولی کاملاً قابل رزکسیون.",
+ match:""},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"اولویت اقدام پرستاری در تومور ویلمز چیست؟",
+ opts:["کنترل فشار خون","توجه به شوک وارده به خانواده","توضیح به والدین در مورد بیماری","گذاشتن اتیکت بالای سر بیمار مبنی بر عدم لمس شکم"],
+ ans:3, note:"Wong ص ۵۸۵ — مهم‌ترین: عدم لمس/دستکاری توده (خطر پارگی و متاستاز).",
+ match:"ظاهر شده در: سوالات قلب و کلیه"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"در بیمار با سندرم داون کدامیک از علامت‌های زیر نگران‌کننده می‌باشد؟",
+ opts:["درد مداوم گردن و عدم کنترل ادرار و مدفوع","تغییر در حس‌ها","الف و ب","تأخیر شدید رشد"],
+ ans:2, note:"Wong ص ۵۲۲ — علائم آتلانتوآگزیال اینستابیلیتی (درد گردن + تغییرات عصبی) اورژانسی است.",
+ match:"ظاهر شده در: سوالات با جواب ۱۴۰۴-۱۴۰۳"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"وقتی کودکی در استدلال آوردن و حل مشکل و برنامه‌ریزی مشکل دارد در کدام قسمت از توانایی ذهنی دچار ناتوانی است؟",
+ opts:["عملکرد هوشی","رفتار سازگارانه","سن درگیری مشکل ذهنی","همه موارد"],
+ ans:0, note:"Wong ص ۵۱۳ — استدلال و حل مشکل مربوط به عملکرد هوشی (intellectual functioning) است.",
+ match:""},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"وقتی پرستاری به کودک با اختلال شناختی راهنمایی را گام به گام بیان می‌کند به کدام نقص بیمار توجه دارد؟",
+ opts:["نقص حافظه نزدیک","نقص انگیزش","اختلال در ارتباط","نقص ساختارمند"],
+ ans:0, note:"Wong ص ۵۱۵ — ارائه دستورات کوتاه و گام‌به‌گام برای جبران نقص حافظه کوتاه‌مدت.",
+ match:""},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"مینا دختری با سندرم داون است. در آموزش به والدین کدام مراقبت را در اولویت قرار می‌دهید؟",
+ opts:["تنفسی","قلبی","اسکلتی","ارتباطی"],
+ ans:0, note:"Wong ص ۵۲۳ — مشکلات تنفسی (هیپوتونی + آناتومی راه‌هوایی) اولویت اول مراقبت است.",
+ match:"ظاهر شده در: دی‌ماه و سوالات با جواب"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"ناشنوایی حسی-عصبی به علت اختلال در کدام قسمت گوش می‌باشد؟",
+ opts:["گوش خارجی","گوش میانی","گوش داخلی","گوش داخلی و میانی"],
+ ans:2, note:"Wong ص ۵۲۵ — sensorineural = گوش داخلی (حلزون) یا عصب شنوایی.",
+ match:"ظاهر شده در: تقریباً همه فایل‌های سوالات"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"سینا پسر ۷ ساله مکالمه چهره‌به‌چهره (۳–۵ فوت) را می‌فهمد ولی نطق آهسته را نمی‌شنود و کمی در صحبت مشکل دارد. درجه ناشنوایی او چند است؟",
+ opts:["شدید ۷۱–۹۰","نسبتاً شدید ۵۶–۷۰ (سختی در شنوایی)","خفیف تا متوسط ۲۶–۵۵","خفیف ۱۶–۲۵"],
+ ans:1, note:"Wong ص ۵۲۵ — moderate to moderately severe (۵۶–۷۰ dB).",
+ match:"ظاهر شده در: سوالات با جواب ۱۴۰۴-۱۴۰۳"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"دید ۲۰۰/۲۰ چه معنایی دارد؟",
+ opts:["در ۲۰ فوتی، اشیاء ۲۰۰ فوتی را می‌بیند","در ۲۰۰ فوتی، اشیاء ۲۰ فوتی را می‌بیند","نابینایی نسبی دارد","دید طبیعی است"],
+ ans:0, note:"Wong ص ۵۳۷ — 20/200 یعنی آنچه فرد عادی از ۲۰۰ فوت می‌بیند، این فرد فقط از ۲۰ فوت می‌بیند.",
+ match:"ظاهر شده در: دی‌ماه و سوالات با جواب"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"به‌عنوان پرستار وقتی از یک کودک نابینا مراقبت می‌کنید باید به ....... و .... توجه کنید.",
+ opts:["استقلال و آگاهی از محیط اطراف","اطمینان‌بخشیدن و استقلال","ایجاد محیط امن و آگاهی از محیط اطراف","همه موارد بالا"],
+ ans:3, note:"Wong ص ۵۳۶ — ایمنی، استقلال و جهت‌یابی محیط سه اصل کلیدی هستند.",
+ match:""},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"کودکی از بیماری سلیاک رنج می‌کشد. از غذاهای زیر کدام را نمی‌تواند مصرف کند؟",
+ opts:["نان با آرد برنج","ماکارونی با آرد ذرت","بیسکویت با آرد گندم","بیسکویت برنجی"],
+ ans:2, note:"Wong ص ۶۶۸ — گلوتن (گندم، جو، چاودار) ممنوع است.",
+ match:"ظاهر شده در: تقریباً همه فایل‌ها"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"در شیفت شب نوزادی با مننگومیلوسل به دنیا آمده. شما به‌عنوان پرستار کشیک باید ....... انجام دهید.",
+ opts:["نوزاد را بدون لباس در انکوباتور با پوزیشن پرون قرار دهید","پانسمان مرطوب با نرمال‌سالین روی ساک بکشید و هر ۲–۴ ساعت مرطوب کنید","علائم حیاتی را هر ۲ ساعت چک کنید","موارد الف و ب درست است"],
+ ans:3, note:"Wong ص ۸۲۷ — پوزیشن prone + پوشش مرطوب استریل با نرمال‌سالین برای محافظت از ساک.",
+ match:"ظاهر شده در: سوالات با جواب ۱۴۰۴-۱۴۰۳"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"در عمل جراحی پیلورومیوتومی تغذیه چند ساعت بعد عمل و با چه چیز شروع می‌شود؟",
+ opts:["۶–۸ ساعت با شیر مادر","۴–۶ ساعت با آب و الکترولیت","۸–۶ ساعت با فرمولا","۴–۶ ساعت با فرمولا"],
+ ans:1, note:"Wong ص ۶۶۷ — معمولاً ۴–۶ ساعت بعد با مایعات شفاف/الکترولیت شروع و سپس پیشرفت تدریجی.",
+ match:"ظاهر شده در: دی‌ماه و سوالات با جواب"},
+
+{src:"بلوپرینت ۱۴۰۲-۱۴۰۳", group:"blueprint", year:"1402-1403", type:"mcq",
+ q:"تشخیص پرستاری در بیمار فلج مغزی تمام این موارد هستند به‌جز:",
+ opts:["تغذیه نامتعادل: کمتر از نیازهای بدن","تغذیه نامتعادل: بیشتر از نیازهای بدن + تأخیر رشد","گسستگی در فرایند خانوادگی","خطر آسپیراسیون"],
+ ans:1, note:"Wong ص ۸۱۲ — معمولاً مشکل تغذیه «کمتر از نیاز» است نه بیشتر.",
+ match:"ظاهر شده در: دی‌ماه و سوالات با جواب"},
+
+/* ===== بلوپرینت دی ۱۴۰۳ (۱۶ سوال) ===== */
+{src:"بلوپرینت دی ۱۴۰۳", group:"blueprint", year:"1403-di", type:"mcq",
+ q:"مینا دچار بیماری هوچکین است. دو ناحیه تیموس و زیربغل و یک لوب ریه راست درگیر است. بیماری در کدام مرحله است؟",
+ opts:["مرحله I","مرحله II","مرحله III","مرحله IV"],
+ ans:2, note:"درگیری دو طرف دیافراگم یا ارگان‌های خارج لنفاوی = Stage III/IV. با درگیری ریه معمولاً Stage IV محسوب می‌شود؛ اما بر اساس توصیف کلاسیک دو ناحیه + ریه → IIIE یا IV.",
+ match:""},
+
+{src:"بلوپرینت دی ۱۴۰۳", group:"blueprint", year:"1403-di", type:"mcq",
+ q:"سندرم لیز توموری که جز اورژانس‌های انکولوژی است به علت اختلال الکترولیتی زیر ایجاد می‌شود؟",
+ opts:["هیپرکالمی، هیپرفسفاتمی، هیپوکلسمی، هیپراوریسمی","هیپوکالمی و هیپوناترمی","هیپرناترمی و هیپوکلسمی","فقط هیپرکالمی"],
+ ans:0, note:"تخریب سریع سلول‌ها → افزایش K، PO4، اسیداوریک و کاهش Ca.",
+ match:""},
+
+{src:"بلوپرینت دی ۱۴۰۳", group:"blueprint", year:"1403-di", type:"mcq",
+ q:"تفاوت توده نوروبلاستوما با تومور ویلمز چیست؟",
+ opts:["نوروبلاستوما معمولاً از غده فوق‌کلیه منشأ می‌گیرد و اغلب از خط وسط عبور می‌کند","ویلمز همیشه دوطرفه است","نوروبلاستوما فقط در کودکان بالای ۱۰ سال دیده می‌شود","هیچ تفاوتی ندارند"],
+ ans:0, note:"نوروبلاستوما از کرست عصبی (آدرنال) و اغلب cross midline؛ ویلمز داخل‌کلیوی و معمولاً unilateral.",
+ match:""},
+
+/* ===== سوالات دی‌ماه ۱۴۰۲-۱۴۰۳ ===== */
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"در نمونه ادرار کودکی عفونت گزارش شده است. این کودک می‌تواند علائم کدام یک از بیماری‌های زیر را نشان دهد؟",
+ opts:["پیلونفریت","سیستیت","UTI بدون نشانه بالینی","تمام موارد"],
+ ans:3, note:"باکتریوری می‌تواند در هر سه حالت (علامت‌دار فوقانی، تحتانی یا بدون علامت) دیده شود."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"دختران و پسران در چه گروه سنی به ترتیب مستعد عفونت مجاری ادراری هستند؟",
+ opts:["۲–۶ سال و زیر یک‌سال","۱ تا ۶ سال و بالای یک‌سال","۲–۱۵ سال و زیر ۱ ماه","۶–۱۵ سال و بالای ۱۲"],
+ ans:0, note:"دختران در سنین پیش‌دبستانی (۲–۶) و پسران در شیرخوارگی (به‌ویژه ختنه‌نشده) بیشتر مبتلا می‌شوند."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"ریفلاکس مثانه نوروژنیک جز کدام ریفلاکس‌ها قرار می‌گیرد؟",
+ opts:["اولیه","ثانویه","هر دو","هیچکدام"],
+ ans:1, note:"ریفلاکس ثانویه ناشی از اختلال عملکرد مثانه (نوروژنیک) است."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"کدام یک از موارد زیر برای تشخیص مننگومیلوسل در بارداری کاربرد ندارد؟",
+ opts:["سونوگرافی","سی‌تی‌اسکن","آلفا‌فتوپروتئین","ام‌آرآی"],
+ ans:1, note:"سی‌تی‌اسکن به‌خاطر اشعه در بارداری استفاده نمی‌شود. AFP + سونوگرافی و در صورت نیاز MRI."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"اولین اولویت مراقبت در کودکان مبتلا به مننگومیلوسل چیست؟",
+ opts:["جلوگیری از آسیب به کیسه","توجه به وضعیت هوشیاری","بررسی وضعیت عصبی و حرکتی","باز نگه داشتن راه هوایی"],
+ ans:0, note:"محافظت از ساک (جلوگیری از پارگی و عفونت) اولویت فوری است."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"کودکی به علت هیدروسفالی شنت پریتوئن دارد. پرستار باید به کدام موارد بیشتر توجه کند؟",
+ opts:["علائم عفونت","علائم افزایش ICP","جابجایی شنت","الف و ب"],
+ ans:3, note:"عفونت و افزایش فشار داخل جمجمه دو عارضه اصلی شنت هستند."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"نارسایی سمت راست قلب و سمت چپ قلب به ترتیب باعث:",
+ opts:["ادم اندام تحتانی – ادم ریه","ادم ریه و ادم اندام تحتانی","هپاتومگالی و ادم اندام تحتانی","ادم ریه و اسپلنومگالی"],
+ ans:0, note:"Right-sided → peripheral edema / hepatomegaly؛ Left-sided → pulmonary edema."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"کودکی که دیگوکسین دریافت می‌کند باید پرستار به تمام موارد زیر در مسمومیت توجه کند به‌جز:",
+ opts:["برادیکاردی","هیپوکالمی","هیدراتاسیون","استفراغ مکرر"],
+ ans:2, note:"علائم مسمومیت: برادی‌کاردی، تهوع/استفراغ، آریتمی. هیپوکالمی حساسیت به دیگوکسین را افزایش می‌دهد. هیدراتاسیون به‌طور مستقیم علامت مسمومیت نیست."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"به تمام موارد زیر در لحظه تشنج باید توجه شود به‌جز:",
+ opts:["تب","پوزیشن بیمار","اعضا درگیر در تشنج","طول مدت تشنج"],
+ ans:0, note:"در حین تشنج: مدت، نوع حرکات، پوزیشن، درگیری اعضا. تب علت است نه چیزی که «در لحظه» مشاهده شود."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"نقطه تنظیم دما در هیپوتالاموس در کدام موارد در قسمت بالاتر تنظیم شده است؟",
+ opts:["هیپرترمی","تشنج","هیپوترمی","تب"],
+ ans:3, note:"در تب (fever) set-point هیپوتالاموس بالا می‌رود؛ در هیپرترمی set-point نرمال است."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"کودکی که عمل هیپوسپادیازیس انجام شده و دارای استنت است باید از کدام مورد اجتناب کند؟",
+ opts:["حمام کردن","حمام در وان","حمام گرم","حمام با دوش"],
+ ans:1, note:"اجتناب از حمام وان تا زمان برداشتن استنت برای جلوگیری از عفونت."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"نهان‌بیضگی با چه اصطلاحی در پزشکی مطرح است؟",
+ opts:["ارکیوپکسی","کریپتوکیدیسم","کرماستریک","گوبرناکولوم"],
+ ans:1, note:"Cryptorchidism = undescended testis. Orchiopexy = عمل جراحی اصلاح."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"در اکستروفی مثانه اولویت مراقبت پرستاری چیست؟",
+ opts:["کنترل برون‌ده ادرار","اجتناب از حمام در وان","پوشاندن ضایعه با کیسه پلاستیکی","تعویض کلمپ بند ناف"],
+ ans:2, note:"پوشاندن مثانه باز با پوشش پلاستیکی شفاف/استریل برای محافظت از مخاط."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"تأخیر ......... دقیقه‌ای کلمپ بند ناف برای تأمین خون با حجم مناسب برای نوزاد مناسب است.",
+ opts:["۱–۳","۴–۵","۵–۷","کمتر از ۱"],
+ ans:0, note:"تأخیر ۱–۳ دقیقه (delayed cord clamping) توصیه می‌شود."},
+
+{src:"دی‌ماه ۱۴۰۲-۱۴۰۳", group:"questions", year:"1402-1403", type:"mcq",
+ q:"در مورد ورزش کردن به والدین کودک هموفیلی بعد از خونریزی مفصلی چه توصیه‌ای می‌کنید؟",
+ opts:["دورانی پاسیو","دورانی اکتیو","عدم ورزش","پیاده‌روی"],
+ ans:0, note:"بعد از خونریزی حاد: استراحت + سپس حرکات passive range of motion."},
+
+/* ===== سوالات قلب و کلیه ۱۴۰۳ ===== */
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"اختلاف فشار اندام فوقانی و تحتانی بیش از حد نرمال در کدام یک از مشکلات قلبی دیده می‌شود؟",
+ opts:["کوارکتاسیون آئورت","تترالوژی فالو","جابجایی عروق بزرگ","نقص بین دیواره بطن"],
+ ans:0, note:"Wong ص ۷۱۵ — Coarctation → فشار بالا در بازوها و پایین در پاها."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"علائم نارسایی کلیه به دنبال بیماری‌های قلبی با چه علائمی مشخص می‌شود؟",
+ opts:["مقدار ادرار کمتر از ۲ سی‌سی به ازای هر کیلو وزن بدن","افزایش نیتروژن اوره خون","کاهش کراتینین سرم","ادم در اندام تحتانی"],
+ ans:0, note:"Wong ص ۷۳۰ — oliguria (<1–2 ml/kg/h) نشانه مهم کاهش پرفیوژن کلیوی."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"در کدامیک از شنت‌های زیر احتمال آمبولی هوا وجود دارد و پرستار باید در تزریقات وریدی دقت کند؟",
+ opts:["شنت راست به چپ","شنت چپ به راست","شنت معکوس (آیزن‌منگر)","شنت دوطرفه"],
+ ans:0, note:"Wong ص ۷۲۰ — در right-to-left shunt هوا می‌تواند مستقیماً به گردش سیستمیک برود."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"ترشحات سوند سینه چه مقدار باشد تهدیدکننده زندگی است و باید بلافاصله گزارش شود؟",
+ opts:["۲–۳ سی‌سی به ازای وزن بدن","۵–۱۰ سی‌سی به ازای وزن بدن","۴–۵ سی‌سی به ازای وزن بدن","۱–۲ سی‌سی به ازای وزن بدن"],
+ ans:1, note:"Wong ص ۷۲۹ — درناژ بیش از ۵–۱۰ ml/kg در ساعت نگران‌کننده است."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"در حملات سیانوزی (Tet Blue) چه خطری کودک را تهدید می‌کند؟",
+ opts:["تشنج","آمبولی","الف و ب","عفونت"],
+ ans:2, note:"Wong ص ۷۱۷ — هیپوکسی شدید → تشنج و خطر ترومبوآمبولی (به‌خاطر پلی‌سیتمی)."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"کودکی که کاتتریزاسیون قلبی شده تمام موارد زیر را رعایت می‌کند غیر از:",
+ opts:["فشار مستقیم حدود ۴٫۵ سانتی‌متر بالاتر از محل عمل","بی‌حرکتی عضو ۶–۸ ساعت در موارد شریانی","اجتناب از ورزش شدید در چند روز اول","اجتناب از وان حمام ۳ روز بعد پروسیجر"],
+ ans:0, note:"Wong ص ۶۹۲ — فشار مستقیم روی خود محل پانکچر است نه ۴٫۵ سانتی‌متر بالاتر."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"ساچوریشن در بیماران قلبی می‌تواند به‌صورت کاذب نرمال باشد به‌علت:",
+ opts:["پلی‌سیتمی","آنمی","پیگمانتاسیون پوست","همه موارد آنمی"],
+ ans:0, note:"Wong ص ۷۰۸ — در پلی‌سیتمی ممکن است SaO2 ظاهراً قابل قبول باشد در حالی که اکسیژن‌رسانی بافتی مختل است."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"در صورت دریافت داروهای مهارکننده ACE پرستار باید به کدامیک حساس باشد؟",
+ opts:["هیپرکالمی","هیپرناترمی","هیپوناترمی","هیپوکالمی"],
+ ans:0, note:"Wong ص ۷۰۶ — ACEIها می‌توانند باعث هیپرکالمی شوند."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"در کدامیک از مشکلات قلبی زیر سیانوز دیده می‌شود؟",
+ opts:["تنگی آئورت","نقص دیواره بین بطن","تترالوژی فالو","تنگی دریچه پولمونر"],
+ ans:2, note:"Wong ص ۷۲۱ — TOF کلاسیک سیانوتیک است (right-to-left shunt)."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"در تترالوژی فالو کدام یک از ضایعات زیر وجود دارد؟",
+ opts:["هیپرتروفی بطن چپ","هیپرتروفی دهلیز راست","سوراخ بین دو دهلیز","سوراخ بین دو بطن (VSD)"],
+ ans:3, note:"Wong ص ۷۱۷ — چهار جزء: VSD + PS + overriding aorta + RVH."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"کودکی که دیگوکسین دریافت می‌کند باید پرستار به کدام الکترولیت دقت کند؟",
+ opts:["پتاسیم","سدیم","کلسیم","فسفر"],
+ ans:0, note:"Wong ص ۷۰۰ — هیپوکالمی خطر مسمومیت با دیگوکسین را افزایش می‌دهد."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"سندرم نفروتیک با کدام یک از علائم زیر خودش را نشان می‌دهد؟",
+ opts:["پروتئینوری، هیپوآلبومینمی، هیپرلیپیدمی و ادم","پروتئینمی، هیپرآلبومینمی، هیپولیپیدمی و ادم","پروتئینوری، هیپرآلبومینمی، هیپرلیپیدمی و ادم","پروتئینوری، هیپرآلبومینمی، هیپولیپیدمی و ادم"],
+ ans:0, note:"Wong ص ۵۸۵ — تتراد کلاسیک: پروتئینوری شدید + هیپوآلبومینمی + ادم + هیپرلیپیدمی."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"از مراقبت‌های بعد عمل جراحی تومور ویلمز کدامیک می‌باشد؟",
+ opts:["عدم لمس شکم","توجه به علائم فعالیت گوارشی","توجه به شوک ناشی از تشخیص","کنترل جذب و دفع"],
+ ans:0, note:"Wong ص ۵۸۵ — بعد از عمل هم احتیاط در لمس شکم ادامه دارد."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"علائم تومور ویلمز موارد زیر می‌باشد به‌جز:",
+ opts:["لمس توده عمقی در پهلو","کاهش وزن","تب","کاهش فشارخون"],
+ ans:3, note:"Wong ص ۵۸۳ — معمولاً توده بدون درد + گاهی فشارخون بالا (رنین)، تب، هماچوری. کاهش BP شایع نیست."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"یک کودک ۵ ساله با وزن ۲۰ کیلوگرم نیاز به چقدر مایع نگهدارنده دارد؟",
+ opts:["۲۰۰۰ سی‌سی","۲۵۰۰ سی‌سی","۱۵۰۰ سی‌سی","۱۲۰۰ سی‌سی"],
+ ans:2, note:"Holliday-Segar: ۱۰ kg اول = ۱۰۰۰، ۱۰ kg بعدی = ۵۰۰ → جمع ۱۵۰۰ ml/day."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"نخستین خط دفاعی در سیستم ادراری تحتانی ....... است.",
+ opts:["تخلیه کامل مثانه","ساختار سالم سیستم ادرار","سیستم ایمنی بدن","IgA موجود در مخاطات دیواره مثانه"],
+ ans:0, note:"Wong ص ۵۷۴ — تخلیه کامل و منظم مثانه مهم‌ترین دفاع مکانیکی است."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"کودکی ۵ ساله دچار باکتریوری بدون علامت شده است. انتظار چقدر کلونی میکروارگانیسم در ادرارش را دارید؟",
+ opts:["۵۰ هزار","۱۰۰ هزار","۱۵۰ هزار","۲۰ هزار"],
+ ans:1, note:"Wong ص ۵۷۳ — ≥۱۰⁵ CFU/ml معمولاً معیار باکتریوری معنادار است."},
+
+{src:"قلب و کلیه ۱۴۰۳", group:"questions", year:"1403", type:"mcq",
+ q:"در بیماری که IVIG دریافت می‌کند باید پرستار به چه چیزهایی دقت کند؟",
+ opts:["واکسیناسیون کودک","علائم آلرژی و شوک آنافیلاکتیک","مورد الف و ب","تعداد دفعات دریافت دارو"],
+ ans:2, note:"Wong ص ۷۳۶ — پایش واکنش‌های آلرژیک + تأخیر واکسن‌های زنده."},
+
+/* ===== سوالات ۱۴۰۴-۱۴۰۳ (سایر) ===== */
+{src:"سوالات ۱۴۰۴-۱۴۰۳", group:"questions", year:"1403-1404", type:"mcq",
+ q:"در نوزاد مبتلا به آترزی مری اولین اقدامی که پرستار باید در اولویت انجام دهد چیست؟",
+ opts:["کنترل آب و الکترولیت‌ها","کنترل وضعیت اکسیژناسیون و سیانوز کودک","باز نگه داشتن راه هوایی","پوزیشن مناسب دادن به کودک"],
+ ans:2, note:"اولویت ABC — حفظ راه هوایی (ساکشن مکرر، پوزیشن) حیاتی است."},
+
+{src:"سوالات ۱۴۰۴-۱۴۰۳", group:"questions", year:"1403-1404", type:"mcq",
+ q:"به‌عنوان پرستار، پوشاندن چشم قوی با روکش (در استرابیسم) در چه سنی توصیه می‌شود؟",
+ opts:["اوایل سن مدرسه","سال‌های پیش‌دبستانی","شیرخواری","نوپایی"],
+ ans:1, note:"درمان occlusion در سنین پیش‌دبستانی مؤثرتر است."},
+
+{src:"سوالات ۱۴۰۴-۱۴۰۳", group:"questions", year:"1403-1404", type:"mcq",
+ q:"علائم بیماری انتروکولیت نکروزان با کدام یک از بیماری‌های زیر ممکن است اشتباه بیفتد؟",
+ opts:["سپسیس","گاستروانتریت","گاستروازوفاژیت","سلیاک"],
+ ans:0, note:"NEC و سپسیس نوزادی overlap زیادی در علائم دارند."},
+
+{src:"سوالات ۱۴۰۴-۱۴۰۳", group:"questions", year:"1403-1404", type:"mcq",
+ q:"چه چیز تشنج نوزادی را از Jitteriness جدا می‌کند؟",
+ opts:["نوع حرکات چشم","نوع حرکات بدن","الف و ب","همه موارد"],
+ ans:3, note:"تشنج: حرکات چشمی، عدم توقف با restraint، عدم تحریک‌پذیری؛ Jitteriness برعکس."},
+
+{src:"سوالات ۱۴۰۴-۱۴۰۳", group:"questions", year:"1403-1404", type:"mcq",
+ q:"دررفتگی مادرزادی هیپ در دوماهگی از چه طریقی قابل تشخیص می‌باشد؟",
+ opts:["رادیوگرافی","سونوگرافی","معاینات بالینی","ب و ج"],
+ ans:3, note:"تا حدود ۴–۶ ماه سونوگرافی + معاینه بالینی (Ortolani/Barlow) روش اصلی است."},
+
+{src:"سوالات ۱۴۰۴-۱۴۰۳", group:"questions", year:"1403-1404", type:"mcq",
+ q:"ویتامین C در کودکان تالاسمی ...................",
+ opts:["به‌خاطر جذب بیشتر آهن نباید داد","زمان دریافت دفروکسامین داده می‌شود","به افراد دچار کمبود ویتامین C باید داده شود","ب و ج"],
+ ans:3, note:"ویتامین C جذب آهن را افزایش می‌دهد پس معمولاً محدود می‌شود مگر همزمان با شلاتور."},
+
+{src:"سوالات ۱۴۰۴-۱۴۰۳", group:"questions", year:"1403-1404", type:"mcq",
+ q:"طول درمان AML به‌طور کلی ........ و ...... در مقایسه با ALL است.",
+ opts:["تهاجمی‌تر و کوتاه‌تر","غیرتهاجمی و طولانی‌تر","تهاجمی و طولانی‌تر","غیرتهاجمی و متناوب"],
+ ans:0, note:"AML درمان فشرده‌تر و کوتاه‌تر نسبت به ALL دارد."},
+
+];
+
+/* ========== منطق نمایش ========== */
+let currentMain = "blueprint";
+let currentSrc = "";
+let allShown = false;
+
+function getSources(main) {
+  if (main === "all") return [];
+  const set = new Set();
+  data.forEach(d => {
+    if (main === "blueprint" && d.group === "blueprint") set.add(d.year || d.src);
+    if (main === "questions" && d.group === "questions") set.add(d.year || d.src);
+  });
+  return [...set];
+}
+
+function yearLabel(y) {
+  const map = {
+    "1402-1403": "بلوپرینت / سوالات ۱۴۰۲-۱۴۰۳",
+    "1403-di": "بلوپرینت دی ۱۴۰۳",
+    "1403": "قلب و کلیه ۱۴۰۳",
+    "1403-1404": "سوالات ۱۴۰۳-۱۴۰۴"
+  };
+  return map[y] || y;
+}
+
+function renderSubTools() {
+  const box = document.getElementById("subTools");
+  if (currentMain === "all") {
+    box.innerHTML = '<button class="sub-btn active" data-src="">همه سوالات یکتا (بدون تکرار)</button>';
+    return;
+  }
+  const srcs = getSources(currentMain);
+  let html = `<button class="sub-btn ${!currentSrc ? 'active' : ''}" data-src="">همه فایل‌های این بخش</button>`;
+  srcs.forEach(s => {
+    html += `<button class="sub-btn ${currentSrc === s ? 'active' : ''}" data-src="${esc(s)}">${esc(yearLabel(s))}</button>`;
+  });
+  box.innerHTML = html;
+  box.querySelectorAll(".sub-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentSrc = btn.dataset.src || "";
+      renderSubTools();
+      render();
+    });
+  });
+}
+
+function dedupeKey(item) {
+  const q = (item.q || "").replace(/\s+/g, " ").trim();
+  const opts = (item.opts || []).join("|");
+  return q + "||" + opts;
+}
+
+function getFiltered() {
+  const term = document.getElementById("search").value.trim().toLowerCase();
+  const typeF = document.getElementById("typeFilter").value;
+  let list = data.slice();
+
+  if (currentMain === "all") {
+    const map = new Map();
+    list.forEach(item => {
+      const key = dedupeKey(item);
+      if (!map.has(key)) {
+        map.set(key, { ...item, sources: [item.src] });
+      } else {
+        const existing = map.get(key);
+        if (!existing.sources.includes(item.src)) existing.sources.push(item.src);
+      }
+    });
+    list = [...map.values()];
+  } else if (currentMain === "blueprint") {
+    list = list.filter(d => d.group === "blueprint");
+    if (currentSrc) list = list.filter(d => (d.year || d.src) === currentSrc);
+  } else {
+    list = list.filter(d => d.group === "questions");
+    if (currentSrc) list = list.filter(d => (d.year || d.src) === currentSrc);
+  }
+
+  if (typeF) list = list.filter(d => d.type === typeF);
+  if (term) {
+    list = list.filter(d => {
+      const text = (d.q + " " + (d.opts || []).join(" ") + " " + (d.note || "")).toLowerCase();
+      return text.includes(term);
+    });
+  }
+  return list;
+}
+
+function esc(s) {
+  return String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function render() {
+  const filtered = getFiltered();
+  document.getElementById("stats").textContent = `${filtered.length} سؤال نمایش داده شده`;
+  document.getElementById("empty").style.display = filtered.length ? "none" : "block";
+
+  document.getElementById("list").innerHTML = filtered.map((x) => {
+    const srcLabel = currentMain === "all" && x.sources
+      ? x.sources.map(s => `<span class="dup-badge">${esc(s)}</span>`).join(" ")
+      : `<span class="meta">${esc(x.src)}</span>`;
+
+    const matchHtml = x.match
+      ? `<div class="bp-match">📌 تطابق با فایل‌های سوال: ${esc(x.match)}</div>`
+      : "";
+
+    const optsHtml = (x.opts || []).map((o, j) =>
+      `<div class="opt ${allShown && j === x.ans ? "correct" : ""}" data-idx="${j}" data-correct="${x.ans}"><span class="letter">${letters[j]})</span>${esc(o)}</div>`
+    ).join("");
+
+    return `<article class="question" data-ans="${x.ans}">
+      <div class="meta">${srcLabel} · چهارگزینه‌ای</div>
+      <div class="qtitle">${esc(x.q)}</div>
+      <div class="opts">${optsHtml}</div>
+      ${matchHtml}
+      <div class="answer ${allShown ? "show" : ""}">
+        <b>پاسخ صحیح: ${letters[x.ans]}) ${esc((x.opts || [])[x.ans] || "")}</b>
+        ${x.note ? `<div class="note">${esc(x.note)}</div>` : ""}
+      </div>
+      <div class="controls">
+        <button class="smallbtn" onclick="toggleAns(this)">${allShown ? "پنهان کردن پاسخ" : "نمایش پاسخ"}</button>
+      </div>
+    </article>`;
+  }).join("");
+
+  document.querySelectorAll(".question .opt").forEach(opt => {
+    opt.addEventListener("click", function() {
+      const q = this.closest(".question");
+      if (q.dataset.answered === "1") return;
+      const correctIdx = parseInt(this.dataset.correct, 10);
+      const chosenIdx = parseInt(this.dataset.idx, 10);
+      q.dataset.answered = "1";
+      q.querySelectorAll(".opt").forEach(o => o.classList.add("disabled"));
+      if (chosenIdx === correctIdx) {
+        this.classList.add("correct");
+      } else {
+        this.classList.add("wrong");
+        const correctOpt = q.querySelector(`.opt[data-idx="${correctIdx}"]`);
+        if (correctOpt) correctOpt.classList.add("correct");
+        triggerFireEffect();
+      }
+    });
+  });
+}
+
+function triggerFireEffect() {
+  const overlay = document.getElementById("fireOverlay");
+  document.body.classList.add("on-fire");
+  if (overlay) overlay.classList.add("active");
+  const flameEmojis = ["🔥","🔥","💥","🔥","🌶️"];
+  for (let i = 0; i < 18; i++) {
+    const f = document.createElement("div");
+    f.className = "flame-sticker";
+    f.textContent = flameEmojis[i % flameEmojis.length];
+    f.style.left = (Math.random() * 92 + 2) + "vw";
+    f.style.top = (Math.random() * 75 + 10) + "vh";
+    f.style.fontSize = (48 + Math.random() * 48) + "px";
+    f.style.animationDelay = (Math.random() * 0.5) + "s";
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 2600);
+  }
+  const rainEmojis = ["🍆","🍆","🔥","🍆","💥","🍆","🔥","🍆"];
+  for (let i = 0; i < 35; i++) {
+    const e = document.createElement("div");
+    e.className = "emoji-rain";
+    e.textContent = rainEmojis[i % rainEmojis.length];
+    e.style.left = (Math.random() * 96 + 1) + "vw";
+    e.style.fontSize = (28 + Math.random() * 36) + "px";
+    e.style.animationDuration = (1.6 + Math.random() * 1.8) + "s";
+    e.style.animationDelay = (Math.random() * 0.9) + "s";
+    document.body.appendChild(e);
+    setTimeout(() => e.remove(), 4000);
+  }
+  setTimeout(() => {
+    document.body.classList.remove("on-fire");
+    if (overlay) overlay.classList.remove("active");
+  }, 2200);
+}
+
+function toggleAns(btn) {
+  const q = btn.closest(".question");
+  const a = q.querySelector(".answer");
+  a.classList.toggle("show");
+  btn.textContent = a.classList.contains("show") ? "پنهان کردن پاسخ" : "نمایش پاسخ";
+  if (a.classList.contains("show")) {
+    const ans = q.dataset.ans;
+    if (ans !== "" && ans !== undefined) {
+      q.querySelectorAll(".opt").forEach(o => {
+        o.classList.remove("wrong");
+        if (parseInt(o.dataset.idx, 10) === parseInt(ans, 10)) o.classList.add("correct");
+        o.classList.add("disabled");
+      });
+      q.dataset.answered = "1";
+    }
+  }
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isLight = html.getAttribute("data-theme") === "light";
+  if (isLight) {
+    html.removeAttribute("data-theme");
+    document.getElementById("themeBtn").textContent = "🌙 حالت روشن";
+  } else {
+    html.setAttribute("data-theme", "light");
+    document.getElementById("themeBtn").textContent = "☀️ حالت تیره";
+  }
+}
+
+document.querySelectorAll(".main-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".main-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    currentMain = tab.dataset.main;
+    currentSrc = "";
+    renderSubTools();
+    render();
+  });
+});
+
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("typeFilter").addEventListener("change", render);
+document.getElementById("toggleAll").addEventListener("click", () => {
+  allShown = !allShown;
+  document.getElementById("toggleAll").textContent = allShown ? "پنهان کردن همه پاسخ‌ها" : "نمایش همه پاسخ‌ها";
+  render();
+});
+
+renderSubTools();
+render();
+</script>
+</body>
+</html>

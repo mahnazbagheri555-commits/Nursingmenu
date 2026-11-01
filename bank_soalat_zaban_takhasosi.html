@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>بانک سوالات زبان تخصصی پرستاری، فوریت و اتاق عمل</title>
+<style>
+:root {
+  --bg: #0b1220;
+  --panel: #121d30;
+  --panel2: #17253b;
+  --text: #edf3fb;
+  --muted: #a9b8cc;
+  --accent: #65d6c4;
+  --line: #2b3b53;
+  --good: #153d34;
+  --bad: #4b2730;
+  --tab: #1e3a5f;
+  --shadow: rgba(0,0,0,0.3);
+}
+[data-theme="light"] {
+  --bg: #f4f7fb;
+  --panel: #ffffff;
+  --panel2: #eef3f9;
+  --text: #1a2535;
+  --muted: #5a6b80;
+  --accent: #0d9488;
+  --line: #d0dbe8;
+  --good: #d1fae5;
+  --bad: #fee2e2;
+  --tab: #ccfbf1;
+  --shadow: rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;line-height:1.9;transition:background .25s,color .25s}
+.wrap{max-width:1100px;margin:auto;padding:22px 14px 60px}
+header{padding:24px 20px;border:1px solid var(--line);border-radius:20px;background:var(--panel);margin-bottom:18px;box-shadow:0 4px 20px var(--shadow)}
+h1{font-size:clamp(20px,4vw,28px);margin:0 0 8px}
+header p{color:var(--muted);margin:0;font-size:14px}
+.theme-btn{position:fixed;top:18px;left:18px;z-index:100;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:50%;width:46px;height:46px;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px var(--shadow)}
+.theme-btn:hover{border-color:var(--accent)}
+
+.main-tabs{display:flex;gap:8px;margin:18px 0 12px;flex-wrap:wrap}
+.main-tab{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:11px 16px;cursor:pointer;font:inherit;font-size:14px;transition:.15s}
+.main-tab.active{background:#17463f;border-color:#2b7469;color:#fff;font-weight:bold}
+[data-theme="light"] .main-tab.active{background:#0d9488;border-color:#0f766e}
+.main-tab:hover{border-color:var(--accent)}
+
+.sub-tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.sub-btn{background:var(--panel2);color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:8px 13px;cursor:pointer;font:inherit;font-size:13px}
+.sub-btn.active{background:#1a4a42;border-color:#2f8c77;color:#fff}
+[data-theme="light"] .sub-btn.active{background:#14b8a6;color:#fff}
+.sub-btn:hover{border-color:var(--accent);color:var(--text)}
+
+.tools{display:grid;grid-template-columns:1fr 160px auto auto;gap:10px;margin:12px 0}
+.tools input,.tools select,.tools button{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:11px;padding:12px;font:inherit}
+.tools button{cursor:pointer;background:#17463f;border-color:#2b7469;color:#fff}
+[data-theme="light"] .tools button{background:#0d9488;border-color:#0f766e}
+.tools button:hover{opacity:.9}
+.stats{color:var(--muted);font-size:13px;margin:6px 2px 12px}
+
+.question{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin:12px 0;padding:17px;box-shadow:0 2px 10px var(--shadow)}
+.meta{font-size:12px;color:var(--accent);margin-bottom:6px}
+.qtitle{font-size:16px;font-weight:bold;margin-bottom:10px;white-space:pre-wrap}
+.opts{display:grid;gap:7px}
+.opt{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);cursor:pointer;transition:background .15s,border-color .15s,transform .1s}
+.opt:hover:not(.answered){border-color:var(--accent);transform:translateX(-2px)}
+.opt.correct{background:var(--good)!important;border-color:#2f8c77!important}
+.opt.wrong{background:var(--bad)!important;border-color:#b91c1c!important}
+.opt.answered{cursor:default}
+.opt .letter{font-weight:bold;color:var(--accent);margin-left:7px}
+.answer{display:none;margin-top:12px;padding:11px 13px;background:var(--panel2);border-right:4px solid var(--accent);border-radius:8px}
+.answer.show{display:block}
+.note{font-size:13px;color:var(--muted);margin-top:6px}
+.dup-badge{display:inline-block;background:#3a2a15;color:#f0c060;font-size:11px;padding:2px 8px;border-radius:6px;margin-right:6px}
+[data-theme="light"] .dup-badge{background:#fef3c7;color:#92400e}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.smallbtn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:7px 11px;cursor:pointer;font:inherit;font-size:13px}
+.smallbtn:hover{border-color:var(--accent)}
+.empty{display:none;text-align:center;color:var(--muted);padding:40px}
+.essay-box{background:var(--panel2);border:1px dashed var(--line);border-radius:10px;padding:12px;margin-top:8px;font-size:14px;color:var(--muted)}
+.fill-answer{font-weight:bold;color:var(--accent)}
+@media(max-width:700px){.tools{grid-template-columns:1fr}.main-tabs{gap:6px}.main-tab{padding:9px 12px;font-size:13px}}
+</style>
+</head>
+<body>
+<button class="theme-btn" id="themeBtn" title="تغییر تم">🌙</button>
+<div class="wrap">
+<header>
+  <h1>بانک سوالات زبان تخصصی پرستاری، فوریت‌های پزشکی و اتاق عمل</h1>
+  <p>مجموعه کامل سوالات پایان‌ترم و میان‌ترم زبان تخصصی (پرستاری، فوریت، اتاق عمل) همراه با پاسخ‌های علمی معتبر، جست‌وجو، فیلتر منبع و نمایش پاسخ.</p>
+</header>
+
+<div class="main-tabs">
+  <button class="main-tab active" data-main="all">همه سوالات (یکتا)</button>
+  <button class="main-tab" data-main="nursing">پرستاری</button>
+  <button class="main-tab" data-main="emergency">فوریت پزشکی</button>
+  <button class="main-tab" data-main="or">اتاق عمل</button>
+</div>
+
+<div class="sub-tools" id="subTools"></div>
+
+<div class="tools">
+  <input id="search" placeholder="جست‌وجو در متن سؤال یا گزینه‌ها…" aria-label="جست‌وجو">
+  <select id="typeFilter">
+    <option value="">همه انواع</option>
+    <option value="mcq">چهارگزینه‌ای</option>
+    <option value="essay">تشریحی / تعریف</option>
+    <option value="fill">پر کردن جای خالی / اصطلاح</option>
+  </select>
+  <button id="toggleAll">نمایش همه پاسخ‌ها</button>
+  <button id="hideAll" style="background:#4b2730;border-color:#7f1d1d">پنهان همه</button>
+</div>
+<div class="stats" id="stats"></div>
+<div id="list"></div>
+<div class="empty" id="empty">سؤالی با این فیلتر پیدا نشد.</div>
+</div>
+
+<script>
+const letters = ['الف','ب','ج','د','ه','و'];
+
+/* ========== DATA ========== */
+const data = [
+
+/* ========== پرستاری - تیر ۱۴۰۵ (MCQ + Reading) ========== */
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"The term \"myelogenous\" refers to something originating in ……………..", opts:["Cartilage","Bone marrow","Joints","Bone tissue"], ans:1, note:"myel/o = bone marrow + -genous = originating in"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"A \"Chondrocyte\" is a cell found in ……………..", opts:["Bone tissue","Adipose tissue","Cartilage tissue","Muscle tissue"], ans:2, note:"chondr/o = cartilage + -cyte = cell"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"\"Arthrocentesis\" is a procedure that involves:", opts:["Surgical incision into a joint","Injection of medication into a joint","Aspiration of fluid from a joint using a needle","Complete replacement of a joint with a prosthesis"], ans:2, note:"arthr/o = joint + -centesis = puncture/aspiration"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"In the term \"costochondral,\" the root \"cost/o\" means …………..", opts:["Skull","Vertebra","Rib","Cartilage"], ans:2, note:"cost/o = rib"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"\"Spondylodynia\" refers to pain in the ……..", opts:["Joint","Bone","Vertebra","Ligament"], ans:2, note:"spondyl/o = vertebra + -dynia = pain"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"The \"diaphysis\" of a long bone is the ……………………", opts:["End of the bone composed of spongy tissue","Shaft or middle portion composed of compact bone","Growth plate active during childhood","Central cavity containing yellow marrow"], ans:1, note:"diaphysis = shaft of long bone"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"Which of the following is classified as a synovial joint?", opts:["Joints between the bones of the skull","The pubic symphysis","The knee joint","Joints between vertebrae"], ans:2, note:"Knee is a classic freely movable (diarthrosis / synovial) joint"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"Which type of fracture is characterized by splintering or crushing of the bone?", opts:["Greenstick","Comminuted","Impacted","Spiral"], ans:1, note:"Comminuted = bone broken into multiple fragments"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"Spondylolisthesis refers to ………….", opts:["Inflammation of the spinal joints","Lateral curvature of the spine","Forward slipping of one vertebra over another","Protrusion of an intervertebral disc"], ans:2, note:"listhesis = slipping"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"In a surgical report, the abbreviation \"ORIF\" stands for ……..", opts:["Open Reduction Internal Fixation","Orthopedic Rehabilitation and Intensive Fitness","Observation, Rest, and Ice Therapy","Osteoporosis Risk and Immediate Follow-up"], ans:0, note:"Standard orthopedic abbreviation"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"The difference between an \"autograft\" and an \"allograft\" is that ……………", opts:["An autograft is taken from another person; an allograft is taken from the patient","An autograft is taken from the patient; an allograft is taken from another individual of the same species","An autograft is synthetic; an allograft is natural","An autograft is taken from an animal; an allograft is taken from a human"], ans:1, note:"auto- = self; allo- = other (same species)"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"Hallux valgus refers to:", opts:["Claw-like deformity of the toes","Lateral deviation of the great toe with bunion formation","Collapse of the foot arch (flat foot)","Inward rotation of the ankle"], ans:1, note:"Hallux = great toe; valgus = angled outward"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"In the term \"bronchiectasis,\" the suffix \"-ectasis\" indicates what pathological change in the airways?", opts:["Narrowing; causing chronic constriction of the bronchi","Inflammation; causing swelling and redness of the bronchi","Dilation; causing chronic widening of the bronchi","Tumor; causing abnormal growth in the bronchi"], ans:2, note:"-ectasis = dilation / expansion"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"In the term \"endarterectomy,\" the prefix \"end/o-\" and the suffix \"-ectomy\" respectively indicate:", opts:["Within; surgical removal","Outside; surgical repair","Around; surgical incision","Between; surgical creation of an opening"], ans:0, note:"endo- = within; -ectomy = excision"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"Based on the abbreviations, what does \"CABG\" stand for?", opts:["Coronary Artery Bypass Graft","Cardiac Arrhythmia Blockage Guide","Cardiovascular Angioplasty Balloon Graft","Coronary Aortic Bypass Graft"], ans:0, note:"Standard cardiac surgery term"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"The largest part of the brain is the ………….", opts:["cerebrum","adrenal","cortex","pituitary"], ans:0, note:"Cerebrum is the largest brain region"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"According to the section on coronary circulation, when do the coronary arteries receive blood?", opts:["During atrial systole","During ventricular relaxation (diastole)","During ventricular contraction (systole)","Continuously throughout the cardiac cycle"], ans:1, note:"Coronary flow mainly occurs in diastole"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"\"Lithotripsy\" is a procedure used to treat:", opts:["Renal calculi (kidney stones)","Gallbladder stones","Cardiac arrhythmias","Skin lesions"], ans:0, note:"lith/o = stone; -tripsy = crushing (also used for gallstones but classic = kidney)"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"A patient diagnosed with \"hematochezia\" is most likely experiencing:", opts:["Blood in the urine","Vomiting blood","Bright red blood in the stool","Coughing up blood"], ans:2, note:"hematochezia = passage of fresh blood per rectum"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"A \"Nosocomial\" infection is one that is:", opts:["Acquired in the hospital","Caused by an autoimmune disorder","Spread by sexual contact","A complication of treatment"], ans:0, note:"nosocomial = hospital-acquired"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"\"Benign\" and \"malignant\" are terms used to describe:", opts:["The location of a tumor","The severity of an infection","The nature of a tumor","The speed of a heartbeat"], ans:2, note:"Benign = non-cancerous; malignant = cancerous"},
+{src:"پرستاری تیر ۱۴۰۵", group:"nursing", type:"mcq", q:"Which medical term means surgical removal of the gallbladder?", opts:["Cholecystitis","Cholelithiasis","Cholecystectomy","Choledocholithiasis"], ans:2, note:"cholecyst/o = gallbladder + -ectomy = removal"},
+
+/* Reading comprehension - پرستاری تیر ۱۴۰۵ */
+{src:"پرستاری تیر ۱۴۰۵ (Reading)", group:"nursing", type:"mcq", q:"What is the primary role of the hypothalamic integrator in temperature regulation?", opts:["To directly produce heat through muscle contraction","To coordinate effector responses based on sensory input","To generate pyrogens that raise the set point","To control only behavioral adjustments like clothing"], ans:1, note:"Hypothalamus integrates signals and triggers effectors"},
+{src:"پرستاری تیر ۱۴۰۵ (Reading)", group:"nursing", type:"mcq", q:"During the chill phase of a fever, which of the following occurs?", opts:["Sweating and vasodilation","Flushed, warm skin and absence of chills","Vasoconstriction, pallor, and shivering","Rapid heat loss through evaporation"], ans:2, note:"Chill phase = body trying to raise temperature"},
+{src:"پرستاری تیر ۱۴۰۵ (Reading)", group:"nursing", type:"mcq", q:"What does the term \"defervescence\" refer to?", opts:["The onset of chills","The period of maximum fever","The phase of falling fever with sweating and vasodilation","A sustained fever with minimal fluctuation"], ans:2, note:"Defervescence = fever coming down"},
+{src:"پرستاری تیر ۱۴۰۵ (Reading)", group:"nursing", type:"mcq", q:"Why is a preliminary palpatory estimation of systolic pressure recommended before auscultation?", opts:["To confirm the patient's blood pressure is normal","To detect an auscultatory gap and prevent underestimation of systolic pressure","To determine the correct cuff size","To speed up the measurement process"], ans:1, note:"Auscultatory gap can cause underestimation"},
+{src:"پرستاری تیر ۱۴۰۵ (Reading)", group:"nursing", type:"mcq", q:"Which of the following is a limitation of pulse oximetry mentioned in the passage?", opts:["It cannot measure pulse rate","It is invasive and painful","It cannot differentiate oxyhemoglobin from carboxyhemoglobin","It is inaccurate in all patients with fever"], ans:2, note:"Cannot distinguish COHb from O2Hb"},
+{src:"پرستاری تیر ۱۴۰۵ (Reading)", group:"nursing", type:"mcq", q:"According to the passage, older adults are more susceptible to hypothermia because they have:", opts:["Higher metabolic rates","Increased subcutaneous fat","Decreased metabolic rate, less fat, and impaired thermoregulation","More efficient temperature sensors"], ans:2, note:"Age-related decline in thermoregulation"},
+{src:"پرستاری تیر ۱۴۰۵ (Reading)", group:"nursing", type:"mcq", q:"In blood pressure measurement, a cuff that is too narrow will result in:", opts:["Falsely low readings","Falsely high readings","Accurate readings if the stethoscope is placed correctly","No effect on the reading"], ans:1, note:"Narrow cuff → overestimation"},
+{src:"پرستاری تیر ۱۴۰۵ (Reading)", group:"nursing", type:"mcq", q:"The fifth phase of Korotkoff sounds (disappearance of sound) is used to determine:", opts:["Systolic pressure in adults","Diastolic pressure in adults","Pulse pressure","Mean arterial pressure"], ans:1, note:"Phase 5 = diastolic in adults"},
+{src:"پرستاری تیر ۱۴۰۵ (Reading)", group:"nursing", type:"mcq", q:"Which factor does NOT affect the accuracy of pulse oximetry according to the passage?", opts:["Dark nail polish","Motion artifacts","Ambient light","The patient's age"], ans:3, note:"Age is not listed as a limitation in the passage"},
+
+/* ========== پرستاری - اصطلاحات و تعریف (چند نسخه مشابه) ========== */
+{src:"پرستاری (اصطلاحات ریشه‌ای)", group:"nursing", type:"fill", q:"Write an example Term for the root: Oste/o", ansText:"Osteoporosis, Osteomyelitis, Osteomalacia, Osteoarthritis, Osteocyte, Osteoblast", note:"oste/o = bone"},
+{src:"پرستاری (اصطلاحات ریشه‌ای)", group:"nursing", type:"fill", q:"Write an example Term for the root: myel/o", ansText:"Myelitis, Myelogenous, Osteomyelitis, Myeloma, Poliomyelitis", note:"myel/o = bone marrow or spinal cord"},
+{src:"پرستاری (اصطلاحات ریشه‌ای)", group:"nursing", type:"fill", q:"Write an example Term for the root: chondr/o", ansText:"Chondrocyte, Chondrosarcoma, Costochondral, Chondritis, Hypochondriac", note:"chondr/o = cartilage"},
+{src:"پرستاری (اصطلاحات ریشه‌ای)", group:"nursing", type:"fill", q:"Write an example Term for the root: arthr/o", ansText:"Arthritis, Arthroscopy, Arthroplasty, Arthrocentesis, Arthralgia", note:"arthr/o = joint"},
+{src:"پرستاری (اصطلاحات ریشه‌ای)", group:"nursing", type:"fill", q:"Write an example Term for the root: synov/i", ansText:"Synovitis, Synovial fluid, Synovectomy", note:"synov/i = synovial membrane"},
+{src:"پرستاری (اصطلاحات ریشه‌ای)", group:"nursing", type:"fill", q:"Write an example Term for the root: burs/o", ansText:"Bursitis, Bursectomy, Bursopathy", note:"burs/o = bursa"},
+{src:"پرستاری (اصطلاحات ریشه‌ای)", group:"nursing", type:"fill", q:"Write an example Term for the root: mening/o", ansText:"Meningitis, Meningioma, Meningocele, Meningococcal", note:"mening/o = meninges"},
+{src:"پرستاری (اصطلاحات ریشه‌ای)", group:"nursing", type:"fill", q:"Write an example Term for the root: radicul/o", ansText:"Radiculopathy, Radiculitis, Radiculalgia", note:"radicul/o = nerve root"},
+{src:"پرستاری (اصطلاحات ریشه‌ای)", group:"nursing", type:"fill", q:"Write an example Term for the root: jejun/o", ansText:"Jejunostomy, Jejunitis, Jejunectomy, Jejunoileal", note:"jejun/o = jejunum"},
+{src:"پرستاری (اصطلاحات ریشه‌ای)", group:"nursing", type:"fill", q:"Write an example Term for the root: cholecyst/o", ansText:"Cholecystectomy, Cholecystitis, Cholecystography, Cholecystolithiasis", note:"cholecyst/o = gallbladder"},
+
+{src:"پرستاری (تعاریف)", group:"nursing", type:"fill", q:"inflammation of bone and bone marrow", ansText:"Osteomyelitis", note:"oste/o + myel/o + -itis"},
+{src:"پرستاری (تعاریف)", group:"nursing", type:"fill", q:"destruction and separation of a vertebra", ansText:"Spondylolysis", note:"spondyl/o + -lysis"},
+{src:"پرستاری (تعاریف)", group:"nursing", type:"fill", q:"pertaining to the coccyx", ansText:"Coccygeal", note:"coccyg/o + -al / -eal"},
+{src:"پرستاری (تعاریف)", group:"nursing", type:"fill", q:"endoscope for examining the pelvis", ansText:"Pelviscope / Pelviscopy", note:"pelvi/o + -scope"},
+{src:"پرستاری (تعاریف)", group:"nursing", type:"fill", q:"pertaining to the skull", ansText:"Cranial", note:"crani/o + -al"},
+{src:"پرستاری (تعاریف)", group:"nursing", type:"fill", q:"around the sacrum", ansText:"Perisacral", note:"peri- + sacr/o + -al"},
+{src:"پرستاری (تعاریف)", group:"nursing", type:"fill", q:"any disease of the nervous system", ansText:"Neuropathy / Neurological disorder / Neuropathology", note:"neur/o + -pathy"},
+{src:"پرستاری (تعاریف)", group:"nursing", type:"fill", q:"pertaining to the cheek", ansText:"Buccal", note:"bucc/o + -al"},
+{src:"پرستاری (تعاریف)", group:"nursing", type:"fill", q:"endoscopic examination of the stomach", ansText:"Gastroscopy", note:"gastr/o + -scopy"},
+{src:"پرستاری (تعاریف)", group:"nursing", type:"fill", q:"stoppage of bile flow", ansText:"Cholestasis", note:"chole- + -stasis"},
+
+{src:"پرستاری (توصیف اصطلاحات)", group:"nursing", type:"essay", q:"Colles’s fracture", ansText:"1) A fracture of the distal radius (wrist) with dorsal displacement of the distal fragment, typically caused by falling on an outstretched hand.\n2) Extra-articular fracture of the distal radius with dorsal angulation and displacement.\n3) Common wrist fracture in elderly (often osteoporotic) after FOOSH injury.\n4) Characterized by “dinner-fork” deformity."},
+{src:"پرستاری (توصیف اصطلاحات)", group:"nursing", type:"essay", q:"insomnia", ansText:"1) Difficulty falling asleep, staying asleep, or waking too early, resulting in non-restorative sleep.\n2) Persistent problems with sleep initiation or maintenance that impair daytime functioning.\n3) A sleep disorder characterized by inadequate quantity or quality of sleep despite adequate opportunity.\n4) Can be primary or secondary to medical, psychiatric, or environmental factors."},
+{src:"پرستاری (توصیف اصطلاحات)", group:"nursing", type:"essay", q:"Osteomalacia", ansText:"1) Softening of the bones due to vitamin D deficiency or phosphate metabolism disorders in adults.\n2) Defective bone mineralization leading to soft, weak bones (adult equivalent of rickets).\n3) Characterized by bone pain, muscle weakness, and increased fracture risk.\n4) Caused by inadequate calcium/phosphate deposition in the bone matrix."},
+{src:"پرستاری (توصیف اصطلاحات)", group:"nursing", type:"essay", q:"Osteoarthritis", ansText:"1) Degenerative joint disease characterized by progressive loss of articular cartilage and formation of osteophytes.\n2) The most common form of arthritis, primarily affecting weight-bearing joints (knees, hips, spine).\n3) Non-inflammatory (or low-grade) arthritis caused by mechanical wear and tear.\n4) Presents with joint pain, stiffness, crepitus, and reduced range of motion."},
+{src:"پرستاری (توصیف اصطلاحات)", group:"nursing", type:"essay", q:"Arthritis", ansText:"1) Inflammation of one or more joints, causing pain, swelling, stiffness, and reduced mobility.\n2) A general term for joint inflammation; includes osteoarthritis, rheumatoid arthritis, gout, etc.\n3) Can be infectious, autoimmune, degenerative, or crystal-induced.\n4) Leading cause of disability worldwide when chronic."},
+{src:"پرستاری (توصیف اصطلاحات)", group:"nursing", type:"essay", q:"Chondrosarcoma", ansText:"1) A malignant tumor arising from cartilage-producing cells.\n2) Second most common primary bone sarcoma (after osteosarcoma); occurs mainly in adults.\n3) Characterized by production of cartilage matrix by tumor cells.\n4) Typically resistant to chemotherapy and radiotherapy; treatment is mainly surgical."},
+{src:"پرستاری (توصیف اصطلاحات)", group:"nursing", type:"essay", q:"Genu varum", ansText:"1) Bow-legged deformity in which the knees are angled outward and the lower legs are angled inward.\n2) Increased distance between the knees when the ankles are together.\n3) Can be physiologic in toddlers or pathologic (rickets, Blount’s disease, osteoarthritis).\n4) Opposite of genu valgum (knock-knees)."},
+{src:"پرستاری (توصیف اصطلاحات)", group:"nursing", type:"essay", q:"hallux valgus", ansText:"1) Lateral deviation of the great toe at the metatarsophalangeal joint, often with bunion formation.\n2) Common foot deformity characterized by medial prominence of the first metatarsal head.\n3) Frequently associated with footwear, heredity, or flat feet.\n4) May cause pain, difficulty walking, and secondary hammer toes."},
+{src:"پرستاری (توصیف اصطلاحات)", group:"nursing", type:"essay", q:"Somnambulism", ansText:"1) Sleepwalking – a parasomnia in which the person performs complex behaviors while in non-REM sleep.\n2) Occurs usually in the first third of the night; the person is difficult to awaken and has amnesia.\n3) More common in children; can be triggered by sleep deprivation, stress, or certain medications.\n4) Potential safety risk (falls, leaving the house)."},
+{src:"پرستاری (توصیف اصطلاحات)", group:"nursing", type:"essay", q:"somnolence", ansText:"1) Excessive sleepiness or drowsiness during the day.\n2) A state of near-sleep or strong desire for sleep.\n3) Can be a symptom of sleep disorders, medications, or medical conditions (e.g., hypothyroidism).\n4) Differs from fatigue in that the person actually feels the need to sleep."},
+
+{src:"پرستاری (مخفف‌ها)", group:"nursing", type:"fill", q:"BP", ansText:"Blood Pressure", note:"فشار خون"},
+{src:"پرستاری (مخفف‌ها)", group:"nursing", type:"fill", q:"TPN", ansText:"Total Parenteral Nutrition", note:"تغذیه کامل وریدی"},
+{src:"پرستاری (مخفف‌ها)", group:"nursing", type:"fill", q:"GERD", ansText:"Gastroesophageal Reflux Disease", note:"بیماری ریفلاکس معده به مری"},
+{src:"پرستاری (مخفف‌ها)", group:"nursing", type:"fill", q:"LVH", ansText:"Left Ventricular Hypertrophy", note:"هیپرتروفی بطن چپ"},
+{src:"پرستاری (مخفف‌ها)", group:"nursing", type:"fill", q:"VT", ansText:"Ventricular Tachycardia / Tidal Volume", note:"تاکی‌کاردی بطنی یا حجم جاری"},
+{src:"پرستاری (مخفف‌ها)", group:"nursing", type:"fill", q:"CVD", ansText:"Cardiovascular Disease / Cerebrovascular Disease", note:"بیماری قلبی-عروقی یا عروق مغزی"},
+{src:"پرستاری (مخفف‌ها)", group:"nursing", type:"fill", q:"ERCP", ansText:"Endoscopic Retrograde Cholangiopancreatography", note:"کلانژیوپانکراتوگرافی رتروگراد آندوسکوپیک"},
+{src:"پرستاری (مخفف‌ها)", group:"nursing", type:"fill", q:"CHD", ansText:"Coronary Heart Disease / Congenital Heart Disease", note:"بیماری عروق کرونر یا بیماری مادرزادی قلب"},
+{src:"پرستاری (مخفف‌ها)", group:"nursing", type:"fill", q:"CCU", ansText:"Coronary Care Unit / Critical Care Unit", note:"بخش مراقبت کرونری یا مراقبت ویژه"},
+{src:"پرستاری (مخفف‌ها)", group:"nursing", type:"fill", q:"CPR", ansText:"Cardiopulmonary Resuscitation", note:"احیای قلبی-ریوی"},
+
+/* ========== فوریت پزشکی بهمن ۱۴۰۴ ========== */
+{src:"فوریت بهمن ۱۴۰۴ (Matching)", group:"emergency", type:"mcq", q:"Match: atherosclerosis", opts:["twisted and swollen vessel","blockage","absence of a heartbeat","localized dilatation of a vessel","accumulation of fatty deposits"], ans:4, note:"Atherosclerosis = fatty plaque accumulation in arteries"},
+{src:"فوریت بهمن ۱۴۰۴ (Matching)", group:"emergency", type:"mcq", q:"Match: varix", opts:["twisted and swollen vessel","blockage","absence of a heartbeat","localized dilatation of a vessel","accumulation of fatty deposits"], ans:0, note:"Varix = varicose vein (twisted & swollen)"},
+{src:"فوریت بهمن ۱۴۰۴ (Matching)", group:"emergency", type:"mcq", q:"Match: occlusion", opts:["twisted and swollen vessel","blockage","absence of a heartbeat","localized dilatation of a vessel","accumulation of fatty deposits"], ans:1, note:"Occlusion = blockage"},
+{src:"فوریت بهمن ۱۴۰۴ (Matching)", group:"emergency", type:"mcq", q:"Match: aneurysm", opts:["twisted and swollen vessel","blockage","absence of a heartbeat","localized dilatation of a vessel","accumulation of fatty deposits"], ans:3, note:"Aneurysm = localized dilatation of a vessel"},
+{src:"فوریت بهمن ۱۴۰۴ (Matching)", group:"emergency", type:"mcq", q:"Match: asystole", opts:["twisted and swollen vessel","blockage","absence of a heartbeat","localized dilatation of a vessel","accumulation of fatty deposits"], ans:2, note:"Asystole = flatline / no heartbeat"},
+{src:"فوریت بهمن ۱۴۰۴ (Matching)", group:"emergency", type:"mcq", q:"Match: thrombosis", opts:["ineffective quivering of muscle","formation of a blood clot in a vessel","inflammation of the heart muscle","local deficiency of blood","local death of tissue"], ans:1, note:"Thrombosis = clot formation"},
+{src:"فوریت بهمن ۱۴۰۴ (Matching)", group:"emergency", type:"mcq", q:"Match: myocarditis", opts:["ineffective quivering of muscle","formation of a blood clot in a vessel","inflammation of the heart muscle","local deficiency of blood","local death of tissue"], ans:2, note:"Myocarditis = inflammation of myocardium"},
+{src:"فوریت بهمن ۱۴۰۴ (Matching)", group:"emergency", type:"mcq", q:"Match: infarction", opts:["ineffective quivering of muscle","formation of a blood clot in a vessel","inflammation of the heart muscle","local deficiency of blood","local death of tissue"], ans:4, note:"Infarction = tissue death due to ischemia"},
+{src:"فوریت بهمن ۱۴۰۴ (Matching)", group:"emergency", type:"mcq", q:"Match: fibrillation", opts:["ineffective quivering of muscle","formation of a blood clot in a vessel","inflammation of the heart muscle","local deficiency of blood","local death of tissue"], ans:0, note:"Fibrillation = quivering / ineffective contraction"},
+{src:"فوریت بهمن ۱۴۰۴ (Matching)", group:"emergency", type:"mcq", q:"Match: ischemia", opts:["ineffective quivering of muscle","formation of a blood clot in a vessel","inflammation of the heart muscle","local deficiency of blood","local death of tissue"], ans:3, note:"Ischemia = local blood deficiency"},
+
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Anastomosis", ansText:"1) Surgical connection between two tubular structures (e.g., blood vessels or bowel segments).\n2) Natural or artificial communication between two vessels or hollow organs.\n3) Used in bypass surgery, bowel resection, and vascular reconstruction.\n4) Can be end-to-end, end-to-side, or side-to-side."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Hypertension", ansText:"1) Persistently elevated blood pressure (usually ≥140/90 mmHg).\n2) A major risk factor for stroke, myocardial infarction, heart failure, and kidney disease.\n3) Classified as primary (essential) or secondary.\n4) Managed by lifestyle modification and antihypertensive drugs."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Bradycardia", ansText:"1) Heart rate slower than normal (usually <60 bpm in adults).\n2) Can be physiologic (athletes) or pathologic (sick sinus, AV block, drugs).\n3) May cause fatigue, dizziness, syncope if cardiac output falls.\n4) Treatment depends on cause and symptoms (atropine, pacing)."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Asystole", ansText:"1) Complete absence of electrical and mechanical cardiac activity (flatline).\n2) A non-shockable rhythm in cardiac arrest.\n3) Managed with high-quality CPR, epinephrine, and treating reversible causes.\n4) Poor prognosis if prolonged."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Cardiomegaly", ansText:"1) Enlargement of the heart, detectable on imaging or physical exam.\n2) Can result from hypertrophy, dilation, or both (e.g., cardiomyopathy, hypertension, valvular disease).\n3) Often associated with heart failure symptoms.\n4) Diagnosis by chest X-ray, echocardiography, or MRI."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Appendicitis", ansText:"1) Inflammation of the vermiform appendix, usually due to obstruction.\n2) Classic presentation: periumbilical pain migrating to right lower quadrant, anorexia, nausea, fever.\n3) Risk of perforation and peritonitis if untreated.\n4) Treatment is usually surgical appendectomy (open or laparoscopic)."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Osteomyelitis", ansText:"1) Infection of bone and bone marrow, most often bacterial (Staphylococcus aureus).\n2) Can be acute or chronic; hematogenous, contiguous, or post-traumatic.\n3) Presents with pain, fever, swelling, and elevated inflammatory markers.\n4) Requires prolonged antibiotics ± surgical debridement."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Encephalopathy", ansText:"1) Diffuse brain dysfunction causing altered mental status, without structural focal lesions.\n2) Causes include metabolic, toxic, hypoxic, infectious, or hepatic.\n3) Symptoms range from confusion and lethargy to coma.\n4) Treatment is directed at the underlying cause."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Cyanosis", ansText:"1) Bluish discoloration of skin and mucous membranes due to increased deoxyhemoglobin.\n2) Central cyanosis (lips, tongue) vs peripheral cyanosis (extremities).\n3) Indicates hypoxemia or poor peripheral perfusion.\n4) Requires urgent evaluation of respiratory and circulatory status."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Murmur", ansText:"1) Abnormal heart sound produced by turbulent blood flow across valves or septal defects.\n2) Classified by timing (systolic/diastolic), intensity, pitch, and radiation.\n3) Can be innocent or pathologic (stenosis, regurgitation, VSD).\n4) Evaluated by auscultation and echocardiography."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Shock", ansText:"1) Life-threatening state of inadequate tissue perfusion leading to cellular hypoxia and organ dysfunction.\n2) Types: hypovolemic, cardiogenic, distributive (septic, anaphylactic), obstructive.\n3) Clinical signs: hypotension, tachycardia, cool/clammy or warm skin, altered mentation, oliguria.\n4) Immediate resuscitation with ABC approach and treat underlying cause."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Artificial pacemaker", ansText:"1) Electronic device that delivers electrical impulses to stimulate heart contraction when intrinsic pacing fails.\n2) Can be temporary (transvenous/external) or permanent (implanted).\n3) Indications: symptomatic bradycardia, high-degree AV block, sick sinus syndrome.\n4) Modes include single-chamber, dual-chamber, and rate-responsive."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Athymia", ansText:"1) Absence or lack of emotion / emotional indifference (rare psychiatric term).\n2) Sometimes used for congenital absence of the thymus gland (more correctly athymia or thymic aplasia).\n3) In immunology: complete absence of thymus leading to severe immunodeficiency (DiGeorge-related).\n4) Context usually clarifies meaning."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Tonsillectomy", ansText:"1) Surgical removal of the palatine tonsils.\n2) Indicated for recurrent tonsillitis, obstructive sleep apnea, peritonsillar abscess, or malignancy suspicion.\n3) Performed under general anesthesia; risks include bleeding and airway compromise.\n4) Often combined with adenoidectomy in children."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Commissurotomy", ansText:"1) Surgical division of fused commissures of a heart valve (usually mitral) to relieve stenosis.\n2) Can be open (with cardiopulmonary bypass) or closed (older technique).\n3) Used historically for rheumatic mitral stenosis; largely replaced by balloon valvuloplasty or valve replacement.\n4) Aims to restore leaflet mobility and improve valve orifice area."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Hypothalamus", ansText:"1) Small region of the diencephalon that links the nervous system to the endocrine system via the pituitary.\n2) Regulates body temperature, hunger, thirst, sleep, circadian rhythms, and autonomic functions.\n3) Controls release of hormones through the hypothalamic-pituitary axis.\n4) Critical for homeostasis."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Radiculopathy", ansText:"1) Disorder of a spinal nerve root causing pain, numbness, weakness, or reflex changes in the corresponding dermatome/myotome.\n2) Commonly due to disc herniation, foraminal stenosis, or spondylosis.\n3) Cervical and lumbar radiculopathies are most frequent.\n4) Diagnosis by clinical exam ± MRI; treatment conservative or surgical."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Psychogenic", ansText:"1) Originating from psychological or emotional factors rather than organic disease.\n2) Used for symptoms or disorders that have a mental rather than physical cause (e.g., psychogenic pain, non-epileptic seizures).\n3) Does not mean the symptoms are imaginary; they are real but driven by psychological mechanisms.\n4) Requires careful differential diagnosis to exclude organic pathology."},
+{src:"فوریت بهمن ۱۴۰۴ (تعاریف)", group:"emergency", type:"essay", q:"Tetraplegia", ansText:"1) Paralysis of all four limbs (also called quadriplegia).\n2) Usually results from high cervical spinal cord injury (C1–C7).\n3) Degree of residual function depends on the exact level and completeness of the lesion.\n4) Often accompanied by respiratory compromise if above C4."},
+
+{src:"فوریت بهمن ۱۴۰۴ (مخفف)", group:"emergency", type:"fill", q:"BP", ansText:"Blood Pressure", note:""},
+{src:"فوریت بهمن ۱۴۰۴ (مخفف)", group:"emergency", type:"fill", q:"CHF", ansText:"Congestive Heart Failure", note:"نارسایی احتقانی قلب"},
+{src:"فوریت بهمن ۱۴۰۴ (مخفف)", group:"emergency", type:"fill", q:"AED", ansText:"Automated External Defibrillator", note:"دفیبریلاتور خارجی خودکار"},
+{src:"فوریت بهمن ۱۴۰۴ (مخفف)", group:"emergency", type:"fill", q:"LVH", ansText:"Left Ventricular Hypertrophy", note:""},
+{src:"فوریت بهمن ۱۴۰۴ (مخفف)", group:"emergency", type:"fill", q:"ICD", ansText:"Implantable Cardioverter-Defibrillator", note:"دفیبریلاتور کاشتنی"},
+{src:"فوریت بهمن ۱۴۰۴ (مخفف)", group:"emergency", type:"fill", q:"CVD", ansText:"Cardiovascular Disease", note:""},
+{src:"فوریت بهمن ۱۴۰۴ (مخفف)", group:"emergency", type:"fill", q:"CPK", ansText:"Creatine Phosphokinase (CK)", note:"آنزیم عضلانی؛ مارکر آسیب عضله/قلب"},
+{src:"فوریت بهمن ۱۴۰۴ (مخفف)", group:"emergency", type:"fill", q:"CHD", ansText:"Coronary Heart Disease / Congenital Heart Disease", note:""},
+{src:"فوریت بهمن ۱۴۰۴ (مخفف)", group:"emergency", type:"fill", q:"CCU", ansText:"Coronary Care Unit / Critical Care Unit", note:""},
+{src:"فوریت بهمن ۱۴۰۴ (مخفف)", group:"emergency", type:"fill", q:"CPR", ansText:"Cardiopulmonary Resuscitation", note:""},
+
+/* Vocabulary MCQ - فوریت */
+{src:"فوریت بهمن ۱۴۰۴ (Vocabulary)", group:"emergency", type:"mcq", q:"The ……………. is the fundamental unit of each medical word. It establishes the basic meaning of the word and is the part to which modifying word parts are added.", opts:["Suffix","Root","Prefix","Combining vowel"], ans:1, note:"Root is the core meaning unit"},
+{src:"فوریت بهمن ۱۴۰۴ (Vocabulary)", group:"emergency", type:"mcq", q:"The process of destroying bone so that its components can be taken into the circulation is called……………... This activity occurs continuously and is normally.", opts:["Resorption","Osteoblasts","Osteocytes","Osteoclasts"], ans:0, note:"Bone resorption by osteoclasts"},
+{src:"فوریت بهمن ۱۴۰۴ (Vocabulary)", group:"emergency", type:"mcq", q:"A typical long bone has a shaft or ……………. composed of compact bone tissue.", opts:["diaphysis","epiphysis","metaphysis","epiphyseal plate"], ans:0, note:"Diaphysis = shaft"},
+{src:"فوریت بهمن ۱۴۰۴ (Vocabulary)", group:"emergency", type:"mcq", q:"........................... is a fluid filled sac that reduces friction near a joint.", opts:["Bursa","Synovial","Knee","Ligament"], ans:0, note:"Bursa reduces friction"},
+{src:"فوریت بهمن ۱۴۰۴ (Vocabulary)", group:"emergency", type:"mcq", q:"Which one best describes the term diarthrosis?", opts:["A freely movable joint; also called a synovial joint.","Immovable joint.","Slightly movable joint","Long bone which has broken from its shaft."], ans:0, note:"Diarthrosis = freely movable"},
+{src:"فوریت بهمن ۱۴۰۴ (Vocabulary)", group:"emergency", type:"mcq", q:"……………………..increases Blood Pressure in a vessel; …………………….decreases pressure.", opts:["Vasoconstriction, vasodilation","Vasodilation, vasoconstriction","Serum, Adrenalin","Atherosclerosis, stethoscope"], ans:0, note:"Constriction ↑ BP; dilation ↓ BP"},
+{src:"فوریت بهمن ۱۴۰۴ (Vocabulary)", group:"emergency", type:"mcq", q:"The instrument used to measure blood pressure is a …………………………..", opts:["Sphygmomanometer","Stethoscope","Cuff","Bladder"], ans:0, note:"Sphygmomanometer"},
+{src:"فوریت بهمن ۱۴۰۴ (Vocabulary)", group:"emergency", type:"mcq", q:"………….. is the largest artery; it receives blood from the left ventricle and branches to all parts of the body.", opts:["Superior vena cava","Femoral artery","Lung’s artery","aorta"], ans:3, note:"Aorta"},
+{src:"فوریت بهمن ۱۴۰۴ (Vocabulary)", group:"emergency", type:"mcq", q:"……………is a slower-than-average heart rate, and ……………………….. is a higher-than-average rate.", opts:["Tachypnea, bradypnea","Bradycardia, tachycardia","Tachycardia, bradycardia","Bradypnea, tachypnea"], ans:1, note:"Brady = slow; tachy = fast"},
+{src:"فوریت بهمن ۱۴۰۴ (Vocabulary)", group:"emergency", type:"mcq", q:"A feeling of constriction around the heart or pain that may radiate to the left arm or shoulder, usually brought on by exertion; caused by insufficient blood supply to the heart: ………………", opts:["angina pectoris","aneurysm","arrhythmia","Heartburn"], ans:0, note:"Classic definition of angina"},
+
+/* ========== اتاق عمل تیر ۱۴۰۵ ========== */
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"When I arrived at the hospital, the surgeons _____ already _____ the operation", opts:["had, perform","had, performing","had, performed","have, performing"], ans:2, note:"Past perfect: had performed"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"An orthopedic instrument used to shave bone; one side is straight and the other is beveled:", opts:["Hemostat","Elevator","Dilator","Chisel"], ans:3, note:"Chisel / osteotome"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"Which of the following medical tools BEST describes a gouge?", opts:["A straight instrument with a curved sharp or dull tip used to separate tissue layers such as periosteum from bone","A V-shaped bone chisel.","A combination of several different kinds of metals","A bone-cutting instrument that has one hinge."], ans:1, note:"Gouge is V-shaped bone chisel"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"When you analyze a medical term, begin at the end of the word. The ending is called a _________", opts:["suffix","prefix","combining vowel","root"], ans:0, note:"Always start with the suffix"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"A tenaculum is BEST described as:", opts:["A grasping instrument with sharp pointed tips, generally used to manipulate or grasp tissue such as the thyroid or cervix","A hinged instrument with sharp, cupped tips that is used to extract pieces of bone or other connective tissue.","A surgical clamp most often used to occlude a blood vessel.","An orthopedic instrument used to shave bone; one side is straight and the other is beveled."], ans:0, note:"Tenaculum = sharp-pointed grasping forceps"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"_____ is a surgical procedure to remove noncancerous (benign) growth of the prostate gland. Pieces of the enlarged gland are removed through the urethra.", opts:["Cystoscopy","Lithotripsy through prostate","Transurethral resection of the prostate gland (TURP)","none"], ans:2, note:"TURP"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"_____ is a procedure in which a section of the cranium is removed.", opts:["Brain tumor","Removal of pituitary","Craniectomy","Neurological disorder"], ans:2, note:"Craniectomy = removal of bone flap without replacement"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"_____ is a large cutting instrument and usually used to sever bone.", opts:["Curettage","Tenaculum","Scissor","Shear"], ans:3, note:"Shears / bone shears"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"Before we can begin the surgery, we will need your signed _____ authorizing us to perform the procedure.", opts:["Permit","Permissive","Permission","permissible"], ans:2, note:"Signed permission / consent"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"Fusion of a joint may be achieved by removing the articular surfaces and securing bony union or by inserting a fixation implant that inhibits motion. _____ may be performed after resection of a recurrent benign, potentially malignant, or malignant lesion that involves the ends of the bones and joint.", opts:["Arthroscopy","Knee replacement","Osteoarthritis","Arthrodesis"], ans:3, note:"Arthrodesis = joint fusion"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"Which of the following surgical procedures is used to correct hallux valgus?", opts:["ORIF","Bunionectomy","Arthroscopy","Bone nailing"], ans:1, note:"Bunionectomy for hallux valgus"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"Which one is the best description of Trendelenburg position?", opts:["the patient is placed on his/her left side with the left thigh and leg extended","the patient lies face up on the padded table with arms tucked in at the sides","The entire table is tilted upward so that the head is higher than the feet","The head and the torso are tilted downward"], ans:3, note:"Trendelenburg = head down"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"__________ may be defined as an abnormal accumulation of water in extravascular portions of the lungs, including both alveolar and interstitial spaces.", opts:["Pulmonary emboli","Pulmonary edema","Atelectasis","Bronchiectasis"], ans:1, note:"Pulmonary edema"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"A/An _____ is a supraglottic device that sits in the hypopharynx, allowing relative isolation of the trachea for ventilation.", opts:["Endotracheal Tube (ETT)","Laryngeal mask airway (LMA)","Bag-valve-mask (BVM)","Tracheostomy"], ans:1, note:"LMA"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"One or more persons is necessary to stabilize the stretcher as close as possible to the operating table, taking care to lock the wheels. The term stretcher is closest in meaning to ___________", opts:["gurney","equipment","chair","OR table"], ans:0, note:"Gurney = wheeled stretcher"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"This suture is made from the serosal lining of bovine or sheep intestine but is NOT treated with a chromium salt solution. This information describes which type of suture?", opts:["Prolene","Plain gut","Nylon","Silk"], ans:1, note:"Plain gut (not chromic)"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"When blood pressure is assessed, the difference between the diastolic and systolic pressures can be a significant sign. This is called the_____________.", opts:["Mean arterial pressure","Preload","Difference pressure","Pulse pressure"], ans:3, note:"Pulse pressure = SBP − DBP"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"Pulmonary _____ take blood to the lungs.", opts:["Veins","arteries","capillaries","deoxygenated"], ans:1, note:"Pulmonary arteries carry deoxygenated blood to lungs"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"Which of the following sutures is considered a non-absorbable type?", opts:["Silk","PDS","Chromic gut","Vicryl"], ans:0, note:"Silk is non-absorbable; others are absorbable"},
+{src:"اتاق عمل تیر ۱۴۰۵", group:"or", type:"mcq", q:"A fracture may be manipulated (set) to replace the bone in its proper alignment without opening the skin. This technique is referred to as a ………………….", opts:["Skeletal traction","Closed reduction (CR)","Open reduction and internal fixation (ORIF)","Electrostimulation"], ans:1, note:"Closed reduction"},
+
+/* ========== زبان تخصصی اتاق عمل (از فایل جداگانه) ========== */
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"…………….. is a document showing someone is qualified for something.", opts:["Prerequisite","License","Residency","Degree"], ans:1, note:"License"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"……… is a situation in which a crisis was avoided.", opts:["Battery","Near miss","Concise","Fail"], ans:1, note:"Near miss"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"A feeling of understanding and connection between two people.", opts:["conflict","anxiety","rapport","fight"], ans:2, note:"Rapport"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"The …………… for medical professionals has increased in recent years.", opts:["demand","production","competent","challenge"], ans:0, note:"Demand"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"Everyone’s blood is compatible with ……….", opts:["Blood type O","Blood type A","Blood type AB","Blood type B"], ans:0, note:"Type O is universal donor"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"The blood bank encourages every …………….. to donate as often as possible.", opts:["women","compatible","recipient","universal donor"], ans:3, note:"Universal donor"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"The pain in my foot is ……………….. . It comes and goes throughout the day.", opts:["consonant","intermittent","unbearable","shooting"], ans:1, note:"Intermittent"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"………….. is an acute illness characterized by fever, sore throat, and bright red rashes on the body.", opts:["Osteoporosis","Pneumonia","Strep virus","Scarlet fever"], ans:3, note:"Scarlet fever"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"………. is the part of the brain that connects the nervous system with the endocrine system", opts:["Gland","Adrenaline","Hypothalamus","Heart"], ans:2, note:"Hypothalamus"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"…………… are the organs in the female body that produce egg cells.", opts:["Infertility","Testicles","Ovaries","Gut"], ans:2, note:"Ovaries"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"Who is affected by gestational diabetes?", opts:["Unborn children","Young children","Older adults","Expecting mothers"], ans:3, note:"Pregnant women"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"The ………….you collect reveals important details about a patient.", opts:["Lab result","finding","data","necessary"], ans:2, note:"Data"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"A disease in which a high level of pressure in the eye causes a person to go blind. It’s name is ………………", opts:["Blepharitis","Chalazion","Cataract","Glaucoma"], ans:3, note:"Glaucoma"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"Surgeons ………... Operations.", opts:["perform","performs","invents","detects"], ans:0, note:"perform (plural subject)"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"Ensuring delivery of ………….. blood to the brain and other vital organs is the primary objective in the initial treatment of the severely injured or ill patient", opts:["deoxygenated","oxygenation","oxygenated","oxygen"], ans:2, note:"oxygenated blood"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"................... is a drug or combination of drugs, given to a patient, in order to kill cancer cells.", opts:["Oncology","Immunotherapy","Radiation therapy","Chemotherapy"], ans:3, note:"Chemotherapy"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"The surgeon inserted a ……………………..  to keep the artery open.", opts:["listing","harden","bypass","stent"], ans:3, note:"Stent"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"…………… is a heart condition in which fatty materials accumulate in the arteries and harden their walls.", opts:["Atherosclerosis","Coronary artery disease","Heart disease","Arrhythmia"], ans:0, note:"Atherosclerosis"},
+{src:"اتاق عمل (Career Path style)", group:"or", type:"mcq", q:"To ensure that each patient is seen at the appropriate time and receives quality  services, we need to follow a ……………. system.", opts:["Triage","Emergency","Triage","Health assessment"], ans:0, note:"Triage"},
+
+/* ========== تابستان ۱۴۰۰ پرستاری ========== */
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"…………….. is a the act of killing a person in order to end suffering.", opts:["Funeral","Euthanasia","Burial","Palliative death"], ans:1, note:"Euthanasia"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"What illnesses do psychiatric nurses treat?", opts:["brain tumors","muscloskletal disorders","head trauma diseases","mental health disorders"], ans:3, note:"Mental health disorders"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"A feeling of understanding and connection between two people.", opts:["conflict","anxiety","rapport","fight"], ans:2, note:"Rapport"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"The …………… for nursing staff has increased during COVID-19 outbreak.", opts:["demand","production","competent","challenge"], ans:0, note:"Demand"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"Everyone’s blood is compatible with ……….", opts:["Blood type O","Blood type A","Blood type AB","Blood type B"], ans:0, note:"Type O"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"The blood bank encourages every …………….. to donate as often as possible.", opts:["year","compatible","recipient","universal donor"], ans:3, note:"Universal donor"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"The pain in my foot is ……………….. . It comes and goes throughout the day.", opts:["consonant","intermittent","unbearable","shooting"], ans:1, note:"Intermittent"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"Which of the options best describes Fertility?", opts:["","","","the ability to have children"], ans:3, note:"Ability to have children"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"………… is a condition in which a person cannot understand what is real and what is not.", opts:["Addiction","Depression","Schizophrenia","Dementia"], ans:2, note:"Schizophrenia"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"…………… are the organs in the female body that produce egg cells.", opts:["Infertility","Testicles","Ovaries","Gut"], ans:2, note:"Ovaries"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"Which option best describes incontinence?", opts:["the use of too many medications at once","relating to the care and treatment of the elderly","the act of watching over someone","the inability to control one's bladder or bowel movements"], ans:3, note:"Incontinence"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"Clinical gloves are designed to protect the ………from contaminants and reduce transmission of infection.", opts:["waver","wear","wearer","wise"], ans:2, note:"Wearer"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"A disease in which a high level of pressure in the eye causes a person to go blind. It’s name is ………………", opts:["Blepharitis","Chalazion","Cataract","Glaucoma"], ans:3, note:"Glaucoma"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"Surgeons ………... Operations.", opts:["perform","performs","invents","detects"], ans:0, note:"perform"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"Ensuring delivery of ………….. blood to the brain and other vital organs is the primary objective in the initial treatment of the severely injured or ill patient", opts:["deoxygenated","oxygenation","oxygenated","oxygen"], ans:2, note:"oxygenated"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"polypharmacy means ……………………….", opts:["drug store that delivers drug for old people","the act of watching over someone","a brain disease that causes a person to lose memory and the ability to think clearly","the use of too many medications at once"], ans:3, note:"Polypharmacy"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"Contusion is ……………………….", opts:["The soft outer covering the human body","a discolored area of skin caused by skin trauma","the innermost layer of the skin","a tubular structure in the skin that produces sweat"], ans:1, note:"Bruise / contusion"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"The surgeon inserted a ……………………..  to keep the artery open.", opts:["listing","harden","bypass","stent"], ans:3, note:"Stent"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"…………… is a heart condition in which fatty materials accumulate in the arteries and harden their walls.", opts:["Atherosclerosis","Coronary artery disease","Heart disease","Arrhythmia"], ans:0, note:"Atherosclerosis"},
+{src:"تابستان ۱۴۰۰ پرستاری", group:"nursing", type:"mcq", q:"To ensure that each patient is seen at the appropriate time and receives quality  services, we need to follow a ……………. system.", opts:["Triage","Emergency","Triage","Health assessment"], ans:0, note:"Triage"},
+];
+
+/* ========== LOGIC ========== */
+let currentMain = "all";
+let currentSrc = "";
+let allShown = false;
+
+function getSources(main) {
+  if (main === "all") return [];
+  const set = new Set();
+  data.forEach(d => { if (d.group === main) set.add(d.src); });
+  return [...set].sort();
+}
+
+function renderSubTools() {
+  const box = document.getElementById("subTools");
+  if (currentMain === "all") {
+    box.innerHTML = '<button class="sub-btn active" data-src="">همه سوالات یکتا (بدون تکرار)</button>';
+    return;
+  }
+  const srcs = getSources(currentMain);
+  let html = `<button class="sub-btn ${!currentSrc ? 'active' : ''}" data-src="">همه فایل‌های این بخش</button>`;
+  srcs.forEach(s => {
+    html += `<button class="sub-btn ${currentSrc === s ? 'active' : ''}" data-src="${esc(s)}">${esc(s)}</button>`;
+  });
+  box.innerHTML = html;
+  box.querySelectorAll(".sub-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentSrc = btn.dataset.src || "";
+      renderSubTools();
+      render();
+    });
+  });
+}
+
+function dedupeKey(item) {
+  const q = (item.q || "").replace(/\s+/g, " ").trim().toLowerCase();
+  const opts = (item.opts || []).join("|");
+  return q + "||" + opts;
+}
+
+function getFiltered() {
+  const term = document.getElementById("search").value.trim().toLowerCase();
+  const typeF = document.getElementById("typeFilter").value;
+  let list = data.slice();
+
+  if (currentMain === "all") {
+    const map = new Map();
+    list.forEach(item => {
+      const key = dedupeKey(item);
+      if (!map.has(key)) {
+        map.set(key, { ...item, sources: [item.src] });
+      } else {
+        const existing = map.get(key);
+        if (!existing.sources.includes(item.src)) existing.sources.push(item.src);
+      }
+    });
+    list = [...map.values()];
+  } else {
+    list = list.filter(d => d.group === currentMain);
+    if (currentSrc) list = list.filter(d => d.src === currentSrc);
+  }
+
+  if (typeF) list = list.filter(d => d.type === typeF);
+  if (term) {
+    list = list.filter(d => {
+      const text = (d.q + " " + (d.opts || []).join(" ") + " " + (d.ansText || "")).toLowerCase();
+      return text.includes(term);
+    });
+  }
+  return list;
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function render() {
+  const filtered = getFiltered();
+  document.getElementById("stats").textContent = `${filtered.length} سؤال نمایش داده شده`;
+  document.getElementById("empty").style.display = filtered.length ? "none" : "block";
+
+  document.getElementById("list").innerHTML = filtered.map((x, idx) => {
+    const isEssay = x.type === "essay";
+    const isFill = x.type === "fill";
+    const srcLabel = currentMain === "all" && x.sources
+      ? x.sources.map(s => `<span class="dup-badge">${esc(s)}</span>`).join(" ")
+      : `<span class="meta">${esc(x.src)}</span>`;
+
+    let body = "";
+    if (isEssay) {
+      body = `
+        <div class="essay-box">سؤال تشریحی — پاسخ‌های پیشنهادی (۳–۴ مورد)</div>
+        <div class="answer ${allShown ? "show" : ""}">
+          <b>پاسخ‌های پیشنهادی:</b><br><div style="white-space:pre-wrap">${esc(x.ansText || "")}</div>
+        </div>
+        <div class="controls">
+          <button class="smallbtn" onclick="toggleAns(this)">${allShown ? "پنهان کردن پاسخ" : "نمایش پاسخ"}</button>
+        </div>`;
+    } else if (isFill) {
+      body = `
+        <div class="essay-box">پر کردن جای خالی / اصطلاح پزشکی</div>
+        <div class="answer ${allShown ? "show" : ""}">
+          <b>پاسخ صحیح:</b> <span class="fill-answer">${esc(x.ansText || "")}</span>
+          ${x.note ? `<div class="note">${esc(x.note)}</div>` : ""}
+        </div>
+        <div class="controls">
+          <button class="smallbtn" onclick="toggleAns(this)">${allShown ? "پنهان کردن پاسخ" : "نمایش پاسخ"}</button>
+        </div>`;
+    } else {
+      const optsHtml = (x.opts || []).map((o, j) =>
+        `<div class="opt ${allShown && j === x.ans ? "correct answered" : ""}" data-idx="${j}" data-correct="${x.ans}" onclick="selectOpt(this)"><span class="letter">${letters[j]})</span> ${esc(o)}</div>`
+      ).join("");
+      body = `
+        <div class="opts" data-answered="0">${optsHtml}</div>
+        <div class="answer ${allShown ? "show" : ""}">
+          <b>پاسخ صحیح: ${letters[x.ans]}) ${esc((x.opts || [])[x.ans] || "")}</b>
+          ${x.note ? `<div class="note">${esc(x.note)}</div>` : ""}
+        </div>
+        <div class="controls">
+          <button class="smallbtn" onclick="toggleAns(this)">${allShown ? "پنهان کردن پاسخ" : "نمایش پاسخ"}</button>
+        </div>`;
+    }
+
+    return `<article class="question">
+      <div class="meta">${srcLabel} · ${isEssay ? "تشریحی" : isFill ? "جای خالی / اصطلاح" : "چهارگزینه‌ای"}</div>
+      <div class="qtitle">${esc(x.q)}</div>
+      ${body}
+    </article>`;
+  }).join("");
+}
+
+function selectOpt(el) {
+  const optsBox = el.closest(".opts");
+  if (optsBox.dataset.answered === "1") return; // already answered
+  optsBox.dataset.answered = "1";
+  const correctIdx = parseInt(el.dataset.correct, 10);
+  const chosenIdx = parseInt(el.dataset.idx, 10);
+  const allOpts = optsBox.querySelectorAll(".opt");
+  allOpts.forEach(o => o.classList.add("answered"));
+  if (chosenIdx === correctIdx) {
+    el.classList.add("correct");
+  } else {
+    el.classList.add("wrong");
+    allOpts[correctIdx].classList.add("correct");
+  }
+}
+
+function toggleAns(btn) {
+  const q = btn.closest(".question");
+  const a = q.querySelector(".answer");
+  a.classList.toggle("show");
+  btn.textContent = a.classList.contains("show") ? "پنهان کردن پاسخ" : "نمایش پاسخ";
+  // highlight correct option when showing answer
+  if (a.classList.contains("show")) {
+    const optsBox = q.querySelector(".opts");
+    if (optsBox) {
+      const allOpts = optsBox.querySelectorAll(".opt");
+      if (allOpts.length) {
+        const correctIdx = parseInt(allOpts[0].dataset.correct, 10);
+        allOpts.forEach(o => o.classList.add("answered"));
+        allOpts[correctIdx].classList.add("correct");
+        optsBox.dataset.answered = "1";
+      }
+    }
+  }
+}
+
+document.querySelectorAll(".main-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".main-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    currentMain = tab.dataset.main;
+    currentSrc = "";
+    renderSubTools();
+    render();
+  });
+});
+
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("typeFilter").addEventListener("change", render);
+document.getElementById("toggleAll").addEventListener("click", () => {
+  allShown = true;
+  render();
+});
+document.getElementById("hideAll").addEventListener("click", () => {
+  allShown = false;
+  render();
+});
+
+/* Theme toggle */
+const themeBtn = document.getElementById("themeBtn");
+function setTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  themeBtn.textContent = t === "dark" ? "☀️" : "🌙";
+  localStorage.setItem("theme", t);
+}
+themeBtn.addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme") || "dark";
+  setTheme(cur === "dark" ? "light" : "dark");
+});
+setTheme(localStorage.getItem("theme") || "dark");
+
+renderSubTools();
+render();
+</script>
+</body>
+</html>

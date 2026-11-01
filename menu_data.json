@@ -4,16 +4,12 @@
   "address": "اردبیل، بزرگراه شهداء",
   "categories": [
     {
-      "name": "📚 جزوات پرستاری",
+      "name": "📚 ترم ۵ - سوالات و جزوات",
       "items": [
-        { "title": "جزوه پرستاری داخلی-جراحی", "url": "https://example.com/file1.pdf" },
-        { "title": "جزوه پرستاری کودکان", "url": "https://example.com/file2.pdf" }
-      ]
-    },
-    {
-      "name": "📝 بانک سوالات",
-      "items": [
-        { "title": "سوالات پرستاری سال ۱۴۰۳", "url": "https://example.com/quiz1" }
+        { "title": "📄 جزوه بلوپرینت خون و سرطان", "url": "https://raw.githubusercontent.com/mahnazbagheri555-commits/Nursingmenu/main/جزوه_بلوپرینت_خون_و_سرطان.pdf" },
+        { "title": "📝 سوالات اندیشه 2 - معاضدی (با جواب)", "url": "https://raw.githubusercontent.com/mahnazbagheri555-commits/Nursingmenu/main/سوالات_اندیشه-معاضدی-باجواب.pdf" },
+        { "title": "📝 Answers Ramazanzadeh MSc English Questions", "url": "https://raw.githubusercontent.com/mahnazbagheri555-commits/Nursingmenu/main/Answers_Ramazanzadeh_MSc_English_Questions.pdf" },
+        { "title": "📝 جواب بلوپرینت و میان‌ترم اللهیاری", "url": "https://raw.githubusercontent.com/mahnazbagheri555-commits/Nursingmenu/main/جواب_بلوپرینت_و_میانترم_اللهیاری.pdf" }
       ]
     }
   ]
